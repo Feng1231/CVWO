@@ -71,6 +71,7 @@ export default function MenuListComposition() {
           placement="bottom-start"
           transition
           disablePortal
+          sx={{zIndex:10000}}
         >
           {({ TransitionProps, placement }) => (
             <Grow
@@ -89,8 +90,9 @@ export default function MenuListComposition() {
                     onKeyDown={handleListKeyDown}
                   >
                     <MenuItem onClick={() => navigate('/Home')}>General</MenuItem>
-                    <MenuItem onClick={() => navigate('/Profile')}>Math</MenuItem>
+                    <MenuItem onClick={() => navigate('/Home')}>Math</MenuItem>
                     <MenuItem onClick={() => navigate('/NoPage')}>Physics</MenuItem>
+                    <MenuItem onClick={() => navigate('/MyPosts')}>My Posts</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

@@ -1,7 +1,9 @@
 import { RefreshPage } from "../App";
-export default function checkLoginInformation(data: FormData) {
-    const username = data.get('username');
-    const password = data.get('password');
+import { SignInProps, SignUpProps } from "../App.types";
+
+export default function checkLoginInformation(user: SignInProps) {
+    const username = user.username;
+    const password = user.password;
     if (username && password) {
         if (username === 'admin' && password === '123c') {
             document.location.href="/Home";
@@ -13,10 +15,10 @@ export default function checkLoginInformation(data: FormData) {
     }
 }
 
-export function checkValidSignUp(data: FormData) {
-    const username = data.get('username');
-    const password = data.get('password');
-    const confirmPassword = data.get('confirmPassword');
+export function checkValidSignUp(user: SignUpProps) {
+    const username = user.username;
+    const password = user.password;
+    const confirmPassword = user.confirmPassword;
     if (username && password && confirmPassword) {
         if (username === "admin") {
             alert('Username exists, please enter another username');

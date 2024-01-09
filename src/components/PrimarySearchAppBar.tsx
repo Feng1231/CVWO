@@ -120,6 +120,7 @@ export default function PrimarySearchAppBar() {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      style={{ zIndex: 10000 }} 
     >
       <MenuItem onClick={handleProfileNavigation}>Profile</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -142,6 +143,7 @@ export default function PrimarySearchAppBar() {
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
+      style={{zIndex:1000}}
     >
       <MenuItem>
         <IconButton size="large" aria-label="show new mails" color="inherit">

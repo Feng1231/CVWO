@@ -13,25 +13,8 @@ import Container from '@mui/material/Container';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { checkValidSignUp } from '../components/loginFunctions';
 
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 var tempPassword: string = "";
 var tempConfirmPassword: string = "";
 export default function SignUp() {
@@ -55,133 +38,130 @@ export default function SignUp() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
-      confirmPassword: data.get('confirmPassword')
-    });
+    const user = {
+      username: (data.get('username')! as string).trim(),
+      password: data.get('password')! as string,
+      confirmPassword: data.get('confirmPassword')! as string
+    }
         //to add Connection with DB
-    checkValidSignUp(data);
+    checkValidSignUp(user);
     
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <TextField
-                  autoComplete="username"
-                  name="username"
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  autoFocus
-                  helperText=" "
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={(countPassword && countConfirmPassword ? true : false) && tempPassword !== tempConfirmPassword}
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  autoComplete="password"
-                  InputProps={{
-                    endAdornment: 
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >{showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                  }}
-                  onChange={e => {
-                    setCountPassword(e.target.value.length);
-                    tempPassword = e.target.value;
-                  }}
-                  helperText={countPassword && countConfirmPassword
-                    ? (tempPassword !== tempConfirmPassword
-                      ?"Ensure both password inputs are identical"
-                      : " ")
-                      : " "}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  error={(countPassword && countConfirmPassword ? true : false) && tempPassword !== tempConfirmPassword}
-                  required
-                  fullWidth
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  type={showConfirmPassword ? "text" : "password"}
-                  id="confirm-password"
-                  autoComplete="confirm-password"
-                  InputProps={{
-                    endAdornment: 
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowConfirmPassword}
-                          onMouseDown={handleMouseDownConfirmPassword}
-                          edge="end"
-                        >{showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                  }}
-                  onChange={e => {
-                    setCountConfirmPassword(e.target.value.length);
-                    tempConfirmPassword = e.target.value;
-                  }}
-                  helperText={countPassword && countConfirmPassword
-                    ? (tempPassword !== tempConfirmPassword
-                      ? "Ensure both password inputs are identical"
-                      : " ")
-                      : " "}                
-                />
-              </Grid>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="username"
+                name="username"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                autoFocus
+                helperText=" "
+              />
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/SignIn" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
+            <Grid item xs={12}>
+              <TextField
+                error={(countPassword && countConfirmPassword ? true : false) && tempPassword !== tempConfirmPassword}
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                id="password"
+                autoComplete="password"
+                InputProps={{
+                  endAdornment: 
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >{showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                }}
+                onChange={e => {
+                  setCountPassword(e.target.value.length);
+                  tempPassword = e.target.value;
+                }}
+                helperText={countPassword && countConfirmPassword
+                  ? (tempPassword !== tempConfirmPassword
+                    ?"Ensure both password inputs are identical"
+                    : " ")
+                    : " "}
+              />
             </Grid>
-          </Box>
+            <Grid item xs={12}>
+              <TextField
+                error={(countPassword && countConfirmPassword ? true : false) && tempPassword !== tempConfirmPassword}
+                required
+                fullWidth
+                name="confirmPassword"
+                label="Confirm Password"
+                type={showConfirmPassword ? "text" : "password"}
+                id="confirm-password"
+                autoComplete="confirm-password"
+                InputProps={{
+                  endAdornment: 
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowConfirmPassword}
+                        onMouseDown={handleMouseDownConfirmPassword}
+                        edge="end"
+                      >{showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                }}
+                onChange={e => {
+                  setCountConfirmPassword(e.target.value.length);
+                  tempConfirmPassword = e.target.value;
+                }}
+                helperText={countPassword && countConfirmPassword
+                  ? (tempPassword !== tempConfirmPassword
+                    ? "Ensure both password inputs are identical"
+                    : " ")
+                    : " "}                
+              />
+            </Grid>
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+          >
+            Sign Up
+          </Button>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link href="/SignIn" variant="body2">
+                Already have an account? Sign in
+              </Link>
+            </Grid>
+          </Grid>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+      </Box>
+    </Container>
   );
 }

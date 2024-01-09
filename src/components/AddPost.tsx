@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
-import '../App.css';
+import '../assets/css/App.css';
 import { checkValidPostCreation } from './loginFunctions';
 
 export default function AddPost() {
@@ -28,7 +28,7 @@ export default function AddPost() {
   };
   
   return (
-    <React.Fragment>
+    <>
       <IconButton color='inherit' onClick={handleClickOpen}>
         <AddIcon />
       </IconButton>
@@ -91,6 +91,6 @@ export default function AddPost() {
           </Box>
         </DialogContent>
       </Dialog>
-    </React.Fragment>
+    </>
   );
 }
