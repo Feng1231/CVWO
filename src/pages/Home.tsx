@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import Header from '../components/Header'
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -7,16 +7,17 @@ import PinnedPost from '../components/PinnedPost';
 import NonPinnedPost from '../components/NonPinnedPost';
 import { Divider } from '@mui/material';
 import Chip from '@mui/material/Chip';
-import { User, Post, CategoryProps } from '../App.types';
+import { User, Post, CategoryPropstodelete, HomeProps } from '../App.types';
 import { pinnedPosts, posts } from '../App';
+import NoPage from './NoPage';
 
 
-const Home = (categoryProps: CategoryProps) => {
-    const { category }= categoryProps;
-    return (
+const Home: FC<HomeProps> = ({ user, category, handleLogout }) => {
+    
+    return user.logged_in
+    ? (
         <>
-            <CssBaseline />
-            <PrimarySearchAppBar />
+            <PrimarySearchAppBar user={user} handleLogout={handleLogout}/>
             <Container maxWidth='xl'>
                 <Header title='Home'/>
                 {pinnedPosts.length > 0 && pinnedPosts
@@ -47,8 +48,8 @@ const Home = (categoryProps: CategoryProps) => {
                     }}/>
                 )}
             </Container>
-        </>
-    );
+        </>)
+    : <NoPage statusCode={401} />
 }
 
 export default Home;

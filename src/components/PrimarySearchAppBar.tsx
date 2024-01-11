@@ -19,6 +19,8 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import AddPost from './AddPost';
+import { PrimarySearchAppBarProps, UserProps } from '../App.types';
+import { FC } from 'react';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -61,7 +63,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, handleLogout }) => {
+  const userID = 'id' in user ? user.id : -1;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -86,11 +89,14 @@ export default function PrimarySearchAppBar() {
   
   const handleMobileLogout = () => {
     setMobileMoreAnchorEl(null);
+    handleLogout();
+    navigate('/SignIn');
   }
-  const handleLogout = () =>{
+  const handleUserLogout = () =>{
     setAnchorEl(null);
+    handleLogout();
     handleMobileLogout();
-    document.location.href='/SignIn';
+    navigate('/SignIn');
   }
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -99,7 +105,7 @@ export default function PrimarySearchAppBar() {
 
   const handleProfileNavigation = () => {
     setAnchorEl(null);
-    navigate('/Profile');
+    navigate(`/users/${userID}`);
   }
 
 
@@ -123,7 +129,7 @@ export default function PrimarySearchAppBar() {
       style={{ zIndex: 10000 }} 
     >
       <MenuItem onClick={handleProfileNavigation}>Profile</MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      <MenuItem onClick={handleUserLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -191,7 +197,7 @@ export default function PrimarySearchAppBar() {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <MenuListComposition />
+            <MenuListComposition user={user}/>
           </IconButton>
           <Typography
             variant="h6"
@@ -199,7 +205,7 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            <Link href='/ ' color='white' underline='none'>Forum</Link>
+            <Link href='/ ' color='white' underline='none'>Discum</Link>
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -210,7 +216,7 @@ export default function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-            <AddPost />
+            <AddPost user={user} />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show new mails" color="inherit">
@@ -258,3 +264,4 @@ export default function PrimarySearchAppBar() {
     </Box>
   );
 }
+export default PrimarySearchAppBar;

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,17 +15,40 @@ import Container from '@mui/material/Container';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
-import checkLoginInformation from '../components/loginFunctions';
+import { checkCookies, userSignIn } from '../components/apiRequests';
+import { SignInProps, UserProps, UserSignInProps } from '../App.types';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+const SignIn: FC<SignInProps> = ({ handleModal, handleLogin }) => {
 
-export default function SignIn() {
+  
+  const navigate = useNavigate();
+  const authToken = Cookies.get('token');
+  if (authToken) {
+    checkCookies(authToken)
+      .then(response => {
+        if ('user' in response && response.success)
+        handleLogin(response.user);
+        navigate('/');
+      })
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const user = {
+    const user:UserSignInProps = {
       username: (data.get('username')! as string).trim(),
       password: data.get('password')! as string
     }
-      checkLoginInformation(user);
+      userSignIn(user)
+        .then(response => {
+
+          if('user' in response && response.success) {
+            handleLogin(response.user);
+            navigate('/');
+          }
+          if('errors' in response && !response.success) handleModal(response.errors);
+        })
     };
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -40,7 +63,7 @@ export default function SignIn() {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 14,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -86,10 +109,7 @@ export default function SignIn() {
             }}
 
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+
           <Button
             type="submit"
             fullWidth
@@ -101,7 +121,7 @@ export default function SignIn() {
             
             <Grid item>
               <Link href="./SignUp" variant="body2">
-                Don't have an account? Sign Up
+                New to Discum? Sign Up
               </Link>
             </Grid>
           </Grid>
@@ -110,3 +130,5 @@ export default function SignIn() {
     </Container>
   );
 }
+
+export default SignIn;

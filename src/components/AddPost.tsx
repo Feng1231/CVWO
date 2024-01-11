@@ -9,12 +9,20 @@ import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import '../assets/css/App.css';
 import { checkValidPostCreation } from './loginFunctions';
-
-export default function AddPost() {
+import { useParams } from 'react-router-dom';
+import { AddPostProps, UserProps } from '../App.types';
+import { FC } from 'react';
+const AddPost: FC<AddPostProps>= ({ user }) => {
+  let { categoryID } = useParams();
+  const user_id = 'id' in user ? user.id : -1;
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const data = new FormData(event.currentTarget);
-    //to add connection to DB
-    checkValidPostCreation(data);
+    const post = {
+      title: (data.get('title') as string).trim(),
+      body: data.get('body') as string,
+      category_id: categoryID,
+      user_id: user_id
+    }
   };
   const [open, setOpen] = React.useState(false);
   const [count1, setCount1] = React.useState(0);
@@ -94,3 +102,5 @@ export default function AddPost() {
     </>
   );
 }
+
+export default AddPost;

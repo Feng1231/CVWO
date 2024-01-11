@@ -9,9 +9,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
+import { MenuListCompositionProps } from '../App.types';
+import { FC } from 'react';
 
 
-export default function MenuListComposition() {
+const MenuListComposition: FC<MenuListCompositionProps> = ({ user }) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ export default function MenuListComposition() {
     setOpen((prevOpen) => !prevOpen);
   };
 
+  const adminLevel = 'admin_level' in user ? user.admin_level : 0;
   const handleClose = (event: Event | React.SyntheticEvent) => {
     if (
       anchorRef.current &&
@@ -93,6 +96,7 @@ export default function MenuListComposition() {
                     <MenuItem onClick={() => navigate('/Home')}>Math</MenuItem>
                     <MenuItem onClick={() => navigate('/NoPage')}>Physics</MenuItem>
                     <MenuItem onClick={() => navigate('/MyPosts')}>My Posts</MenuItem>
+                    {adminLevel === 1 && <MenuItem onClick={() => navigate('/MyPosts')}>New Category</MenuItem>}
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -103,3 +107,5 @@ export default function MenuListComposition() {
     </Stack>
   );
 }
+
+export default MenuListComposition;

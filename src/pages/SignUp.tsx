@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,16 +13,22 @@ import Container from '@mui/material/Container';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
-import { checkValidSignUp } from '../components/loginFunctions';
+import { SignUpProps } from '../App.types';
+import { userSignUp } from '../components/apiRequests';
+import { useNavigate } from 'react-router-dom';
 
-var tempPassword: string = "";
-var tempConfirmPassword: string = "";
-export default function SignUp() {
+
+const SignUp: FC<SignUpProps> = ({handleModal}) => {
+  const navigate = useNavigate();
+
+  var tempPassword: string = "";
+  var tempConfirmPassword: string = "";
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [countPassword, setCountPassword] = React.useState(0);
   const [countConfirmPassword, setCountConfirmPassword] = React.useState(0);
+  const [message, setMessage] = useState('');
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
@@ -41,11 +47,21 @@ export default function SignUp() {
     const user = {
       username: (data.get('username')! as string).trim(),
       password: data.get('password')! as string,
-      confirmPassword: data.get('confirmPassword')! as string
+      password_confirmation: data.get('confirmPassword')! as string
     }
-        //to add Connection with DB
-    checkValidSignUp(user);
     
+    if (user.password !== user.password_confirmation) {
+      return handleModal(["Password doesn't match confirmation!"]);
+    }
+    userSignUp(user)
+      .then(response => {
+          if ('message' in response && response.success) {
+            setMessage(response.message);
+            setTimeout(() => navigate('/SignIn'), 2000);
+          }
+          if ('errors' in response && !response.success) handleModal(response.errors);
+        });
+
   };
 
   return (
@@ -160,8 +176,15 @@ export default function SignUp() {
               </Link>
             </Grid>
           </Grid>
+          <h4 className="text-center p-1">{message}</h4>
         </Box>
       </Box>
+      
     </Container>
   );
 }
+function handleModal(arg0: string[]) {
+  throw new Error('Function not implemented.');
+}
+
+export default SignUp;

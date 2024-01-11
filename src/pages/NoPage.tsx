@@ -4,9 +4,15 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import ErrorIcon from '@mui/icons-material/Error';
+import { NoPageProps } from '../App.types';
+import { FC } from 'react';
 
-const NoPage = () => {
-    
+const NoPage: FC<NoPageProps> = ({ statusCode }) => {
+    const errorMessage = 
+        statusCode === 401
+            ? "You are unauthorized!"
+            : "PAGE NOT FOUND!"
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -19,12 +25,11 @@ const NoPage = () => {
             }}
             >
                 
-                <Header title='404 error' />
+                <Header title={statusCode + 'error'} />
                 <ErrorIcon sx={{ fontSize: 80}} color='error'/> 
-                <h1>PAGE NOT FOUND! </h1>
-                <Link href="/Home" variant="body2">
-                    Back to Home
-                    </Link>
+                <h1>{errorMessage} </h1>
+                {statusCode === 404 && <Link href="/Home" variant="body2">Back to Home</Link>}
+                {statusCode === 401 && <Link href="/SignIn" variant="body2">SignIn</Link>}
             </Box>
         </Container>
     );

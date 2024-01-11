@@ -2,7 +2,7 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { CategoryProps, PostProps, User } from '../App.types';
+import { PostProps, User } from '../App.types';
 import Card from '@mui/material/Card';
 import { Button, ButtonGroup, CardActionArea, CardActions, DialogProps, Divider} from '@mui/material';
 import FullPost from './FullPost';

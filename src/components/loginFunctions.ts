@@ -1,36 +1,7 @@
 import { RefreshPage } from "../App";
 import { SignInProps, SignUpProps } from "../App.types";
 
-export default function checkLoginInformation(user: SignInProps) {
-    const username = user.username;
-    const password = user.password;
-    if (username && password) {
-        if (username === 'admin' && password === '123c') {
-            document.location.href="/Home";
-        } else {
-            alert('Invalid username/password');
-        }
-    } else {
-        alert('Please input username/password');
-    }
-}
 
-export function checkValidSignUp(user: SignUpProps) {
-    const username = user.username;
-    const password = user.password;
-    const confirmPassword = user.confirmPassword;
-    if (username && password && confirmPassword) {
-        if (username === "admin") {
-            alert('Username exists, please enter another username');
-        } else if(password !== confirmPassword) {
-            alert('identical pw pls');
-        } else {
-            document.location.href=('/SignIn');
-        }
-    } else {
-        alert('Please input username/password');
-    }
-}
 
 export function checkValidPostCreation(data: FormData) {
     const title = data.get('title');
