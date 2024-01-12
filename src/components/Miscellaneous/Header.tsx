@@ -1,4 +1,4 @@
-import { AppProps } from '../App.types'
+import { AppProps } from '../../App.types'
 import { FC } from 'react';
 const Header: FC<AppProps> = ({ title }) => {
     return (

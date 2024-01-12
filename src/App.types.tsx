@@ -1,7 +1,7 @@
 import { BooleanLiteral } from "typescript";
 
 export interface AppProps{
-    title: string;
+    title?: string;
 }
 
 export interface ButtonPage{
@@ -44,46 +44,115 @@ export interface UserProps {
     logged_in: boolean;
 }
 
-export interface HomeProps extends CategoryPropstodelete{
+export interface HomeProps {
     user: UserProps | {logged_in: boolean};
     handleLogout: () => void;
+    handleModal: (errors?: string | string[]) => void;
 }
 
+export interface PinnedPostProps {
+    user: UserProps | {logged_in: boolean};
+    post: PostProps;
+    handleModal: (errors?: string | string[]) => void;
+
+}
+export interface NonPinnedPostProps {
+    user: UserProps | {logged_in: boolean};
+    post: PostProps;
+    handleModal: (errors?: string | string[]) => void;
+
+}
 export interface NoPageProps {
     statusCode: number;
 }
 
 export interface PrimarySearchAppBarProps {
     user: UserProps | {logged_in: boolean};
+    categories: CategoryProps[];
     handleLogout: () => void;
+    handleModal: (errors?: string | string[]) => void;
+
 }
 
 export interface MenuListCompositionProps {
     user: UserProps | {logged_in: boolean};
+    categories: CategoryProps[];
+    handleModal: (errors?: string | string[]) => void;
 }
+
 export interface ProfilePageAppBarProps {
     user: UserProps | {logged_in: boolean};
 }
+
+export interface ProfilePageBodyProps {
+    user: UserProps | {logged_in: boolean};
+}
+
 export interface AddPostProps {
     user: UserProps | {logged_in: boolean};
+    categories: CategoryProps[];
+    handleModal: (errors?: string | string[]) => void;
+
+}
+
+export interface EditPostProps {
+    user: UserProps | {logged_in: boolean};
+    post: PostProps;
+    handleModal: (errors?: string | string[]) => void;
+
+}
+
+export interface AddCommentProps {
+    user: UserProps | {logged_in: boolean};
+    post: PostProps;
+    handleModal: (errors?: string | string[]) => void;
 }
 export interface MyPostsProps {
     user: UserProps | { logged_in: boolean };
     handleModal: (errors?: string | string[]) => void;
     handleLogout: () => void;
+
 }
-export interface ExpandPostProps extends PostProps {
+
+export interface CategoryPageProps {
+    user: UserProps | { logged_in: boolean };
+    handleModal: (errors?: string | string[]) => void;
+    handleLogout: () => void;
+}
+
+export interface AddCategoryProps {
+    user: UserProps | {logged_in: boolean};
+    handleModal: (errors?: string | string[]) => void;
+
+}
+
+export interface RenameCategoryProps {
+    user: UserProps | {logged_in: boolean};
+    categories: CategoryProps[];
+    handleModal: (errors?: string | string[]) => void;
+}
+export interface DeleteCategoryProps {
+    user: UserProps | {logged_in: boolean};
+    categories: CategoryProps[];
+    handleModal: (errors?: string | string[]) => void;
+}
+
+export interface FullPostProps {
+    post: PostProps;
     expandPostOpen: boolean;
     handleClosePost: () => void;
     scroll: "body" | "paper" | undefined;
+    user: UserProps | { logged_in: boolean };    
+    handleModal: (errors?: string | string[]) => void;
+
 }
 
-export interface CategoryPropstodelete {
-    category:{
-        category_id: number;
-        name: string;
-        created_at: Date;
-    }
+export interface CategoryProps {
+    id: number;
+    name: string;
+    created_at: Date;
+    updated_at: Date;
+    posts: PostProps[];
 }
 
 export interface CategoryNewProps {
@@ -95,22 +164,24 @@ export interface CategoryEditProps {
     name: string;
 }
 
+
 export interface PostProps {
-    post: {
-      post_id: number;   
-      body: string;
+      id: number;   
       title: string;
+      body: string;
       category_id: number;
       is_pinned: boolean;
-      author_id: number;
+      user_id: number;
       created_at: Date;
-    };
+      updated_at: Date;
+      author: string;
+      category: string;
 }
 
 export interface PostNewProps {
     title: string;
     body: string;
-    category_id: string;
+    category_id: number;
     user_id: number;
 }
 
@@ -148,6 +219,7 @@ export interface CommentProps {
 }
 export interface ProfileProps {
     user: UserProps | { logged_in: boolean };
+
     handleModal: (errors?: string | string[]) => void;
     handleLogout: () => void;
 }

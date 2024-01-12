@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,7 +15,7 @@ import Container from '@mui/material/Container';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
-import { checkCookies, userSignIn } from '../components/apiRequests';
+import { checkCookies, userSignIn } from '../components/Miscellaneous/apiRequests';
 import { SignInProps, UserProps, UserSignInProps } from '../App.types';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -24,14 +24,20 @@ const SignIn: FC<SignInProps> = ({ handleModal, handleLogin }) => {
   
   const navigate = useNavigate();
   const authToken = Cookies.get('token');
-  if (authToken) {
+  // const checked = useRef(false);
+  const [checked, setChecked] = useState(false);
+  setTimeout(()=>{if (authToken && !checked) {
     checkCookies(authToken)
       .then(response => {
-        if ('user' in response && response.success)
-        handleLogin(response.user);
-        navigate('/');
-      })
-  };
+        if ('user' in response && response.success) {
+          handleLogin(response.user);
+          navigate('/');
+        }
+      });
+    setChecked(true);
+  }}, 500);
+    
+
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -132,3 +138,7 @@ const SignIn: FC<SignInProps> = ({ handleModal, handleLogin }) => {
 }
 
 export default SignIn;
+
+function useEffect(arg0: () => void, arg1: never[]) {
+  throw new Error('Function not implemented.');
+}

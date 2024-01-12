@@ -1,4 +1,4 @@
-import Header from '../components/Header';
+import Header from '../components/Miscellaneous/Header';
 import Link from '@mui/material/Link';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -28,7 +28,7 @@ const NoPage: FC<NoPageProps> = ({ statusCode }) => {
                 <Header title={statusCode + 'error'} />
                 <ErrorIcon sx={{ fontSize: 80}} color='error'/> 
                 <h1>{errorMessage} </h1>
-                {statusCode === 404 && <Link href="/Home" variant="body2">Back to Home</Link>}
+                {statusCode === 404 && <Link href="/" variant="body2">Back to Home</Link>}
                 {statusCode === 401 && <Link href="/SignIn" variant="body2">SignIn</Link>}
             </Box>
         </Container>

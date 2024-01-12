@@ -23,7 +23,6 @@ const Modal: FC<ModalProps> = ({ errors, handleModal }) => {
     
       <Dialog open={open} onClose={()=>handleModal()}>
           <DialogTitle></DialogTitle>
-          <Divider></Divider>
           <DialogContent>{showErrors()}</DialogContent>
           <Button  className="modal-btn" onClick={() => handleModal()}>Ok</Button>
       </Dialog>

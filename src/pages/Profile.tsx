@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Header from '../components/Header'
+import Header from '../components/Miscellaneous/Header'
 import CssBaseline from '@mui/material/CssBaseline';
 import ProfilePageAppBar from '../components/ProfilePageAppBar';
 import ProfilePageBody from '../components/ProfilePageBody';
@@ -11,14 +11,15 @@ import NoPage from './NoPage';
 const Profile: FC<ProfileProps> = ({ user, handleModal}) => {
     let { id } = useParams() ;
     const userID = 'id' in user ? user.id : -1;
+    
     return id === "-1" || !user.logged_in || userID !== Number(id)
     ? <NoPage statusCode={401} />
     : (
         <>
             <CssBaseline />
             <Header title='Profile' />
-            <ProfilePageAppBar user={user}/>
-            <ProfilePageBody />
+            <ProfilePageAppBar user={user} />
+            <ProfilePageBody user={user}/>
         </>            
     )
     

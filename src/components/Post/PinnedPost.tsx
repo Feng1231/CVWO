@@ -1,21 +1,28 @@
-import * as React from 'react';
+import React , { FC }from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { CategoryProps, PostProps, User } from '../App.types';
+import { CategoryProps, PinnedPostProps, PostProps, User } from '../../App.types';
 import Card from '@mui/material/Card';
 import { CardActionArea, Divider, DialogProps, Button, CardActions, colors, ButtonGroup, Chip} from '@mui/material';
 import FullPost from './FullPost';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import { Link } from 'react-router-dom';
-import '../assets/css/App.css';
-import { categories, curr_user } from '../App';
+import '../../assets/css/App.css';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
-export default function NonPinnedPost(postProps: PostProps) {
-    const { post } = postProps;
-    const curr_cat = categories.find(ele => ele.category_id === post.category_id);
+import { postHandlePin, postRemove } from '../Miscellaneous/apiRequests';
+import { RefreshPage } from '../../App';
+import EditPost from './EditPost';
+import Moment from 'moment';
+const PinnedPost: FC<PinnedPostProps> = ({ user, post, handleModal }) => {
+    const username = 'username' in user ? user.username : ""
+    const id = 'id' in user ? user.id : -1;
+    const admin_level = "admin_level" in user? user.admin_level : 0;
+    const latest_date = post.updated_at;
+    const date = Moment(latest_date).format('MMMM DD YYYY,  LT');
     const [expandPostOpen, setExpandPostOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper');
+
     const handleExpandPost = (scrollType: DialogProps['scroll']) => () => {
         setExpandPostOpen(true);
         setScroll(scrollType);
@@ -23,7 +30,26 @@ export default function NonPinnedPost(postProps: PostProps) {
     const handleClosePost = () => {
         setExpandPostOpen(false);
     }
+
+    const handleDelete = () => {
+        const confirmDelete = window.confirm('Are you sure you want to delete the post?');
+        if (confirmDelete) {
+            postRemove(post.id)
+                .then(response => {
+                    if(response.success) alert('post.deleted!');
+                    if('errors' in response && !response.success) handleModal(response.errors);
+                })
+            setTimeout(() => RefreshPage(), 1000);
+        }
+    }
     
+    const handleUnpinPost = () => {
+        postHandlePin(post.id)
+            .then(response => {
+                if ('errors' in response && !response.success) handleModal(response.errors)
+            })
+        setTimeout(()=> RefreshPage(), 500);
+    }
     return (
         <Card
         sx={{
@@ -57,10 +83,12 @@ export default function NonPinnedPost(postProps: PostProps) {
                         pr: { md: 3 },
                         }}
                     >
+                        <Typography variant="overline"> {`Category: ${post.category}`}</Typography>
                         <Typography variant="h6" color="inherit">
                             {post.title}
                         </Typography>
-                        <Divider >{curr_cat!.name}</Divider>
+                        
+                        <Divider >{`Last updated by ${username} on ${date}`}</Divider>
                         <Typography variant="body2" color="inherit" paragraph>
                             {post.body}
                         </Typography>
@@ -68,31 +96,30 @@ export default function NonPinnedPost(postProps: PostProps) {
                     </Grid>
                 </Grid>
             </CardActionArea>
-            {((post.author_id === curr_user.id) || curr_user.admin_level === 1 ) && (
+            {((post.user_id === id) || admin_level === 1 ) && (
                 <><CardActions>
                     <StarOutlineIcon sx={{ marginRight:"auto"}}/>
-                <ButtonGroup variant='outlined' color='inherit' sx={{ marginLeft: "auto" }}>
-                    {curr_user.admin_level === 1 && <Button>UNPIN</Button>}
-                    {post.author_id === curr_user.id && <Button>EDIT</Button>}
-                    <Button>DELETE</Button>
-                </ButtonGroup>
+    
+                    <ButtonGroup variant='outlined' color='inherit' sx={{ marginLeft: "auto" }}>
+                    {admin_level === 1 && <Button onClick={handleUnpinPost}>UNPIN</Button>}
+                    {post.user_id === id && <EditPost user={user} post={post} handleModal={handleModal}/>}
+                    <Button onClick={handleDelete}>DELETE</Button>
+                    </ButtonGroup>
+                
                 
                 </CardActions>
-                <FullPost post = {{
-                    post_id: post.post_id,
-                    body: post.body,
-                    title: post.title,
-                    category_id: post.category_id,
-                    is_pinned: post.is_pinned,
-                    author_id: post.author_id,
-                    created_at: post.created_at     
-                }}
+                <FullPost user={user} 
+                post={post}
                 expandPostOpen={expandPostOpen}
                 handleClosePost={handleClosePost} 
-                scroll= {scroll}/></>
+                handleModal={handleModal}
+                scroll= {scroll}
+                />
+            </>
             )}
         </Card>
     );
     
 }
 
+export default PinnedPost;

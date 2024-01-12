@@ -1,5 +1,5 @@
-import { RefreshPage } from "../App";
-import { SignInProps, SignUpProps } from "../App.types";
+import { RefreshPage } from "../../App";
+import { SignInProps, SignUpProps } from "../../App.types";
 
 
 

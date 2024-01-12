@@ -16,11 +16,14 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { Link } from '@mui/material';
+import { Button, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import AddPost from './AddPost';
+import AddPost from './Post/AddPost';
 import { PrimarySearchAppBarProps, UserProps } from '../App.types';
 import { FC } from 'react';
+import AddCategory from './Category_AdminOnly/AddCategory';
+import DeleteCategory from './Category_AdminOnly/DeleteCategory';
+import RenameCategory from './Category_AdminOnly/RenameCategory';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -63,8 +66,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, handleLogout }) => {
+const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, categories, handleLogout, handleModal }) => {
   const userID = 'id' in user ? user.id : -1;
+  const username = 'username' in user ? user.username : "";
+  const adminLevel = 'admin_level' in user ? user.admin_level : 0
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -152,12 +157,7 @@ const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, handleLogout 
       style={{zIndex:1000}}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show new mails" color="inherit">
-          <Badge variant="dot" color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
+        <Button color="inherit" fullWidth onClick={handleProfileNavigation}>{username}</Button>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -197,7 +197,7 @@ const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, handleLogout 
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <MenuListComposition user={user}/>
+            <MenuListComposition user={user} categories={categories} handleModal={handleModal}/>
           </IconButton>
           <Typography
             variant="h6"
@@ -216,14 +216,15 @@ const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, handleLogout 
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-            <AddPost user={user} />
+            <AddPost user={user} categories={categories} handleModal={handleModal} />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show new mails" color="inherit">
-              <Badge variant="dot" color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
+            {adminLevel === 1 && (<>
+              <AddCategory user={user} handleModal={handleModal}/>
+              <DeleteCategory user={user} categories={categories} handleModal={handleModal}/>
+              <RenameCategory user={user} categories={categories} handleModal={handleModal} /></>
+            )}
+            <Button color='inherit' onClick={handleProfileNavigation}>{username}</Button>
             <IconButton
               size="large"
               aria-label="show new notifications"

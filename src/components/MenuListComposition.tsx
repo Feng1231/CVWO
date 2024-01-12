@@ -11,15 +11,17 @@ import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
 import { MenuListCompositionProps } from '../App.types';
 import { FC } from 'react';
+import AddCategory from './Category_AdminOnly/AddCategory';
 
 
-const MenuListComposition: FC<MenuListCompositionProps> = ({ user }) => {
+const MenuListComposition: FC<MenuListCompositionProps> = ({ user, categories, handleModal }) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
+
 
   const adminLevel = 'admin_level' in user ? user.admin_level : 0;
   const handleClose = (event: Event | React.SyntheticEvent) => {
@@ -92,11 +94,13 @@ const MenuListComposition: FC<MenuListCompositionProps> = ({ user }) => {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem onClick={() => navigate('/Home')}>General</MenuItem>
-                    <MenuItem onClick={() => navigate('/Home')}>Math</MenuItem>
-                    <MenuItem onClick={() => navigate('/NoPage')}>Physics</MenuItem>
+                    <MenuItem onClick={() => navigate('/')}>General</MenuItem>
+                    {categories.map(category => (
+                      <MenuItem onClick={() => navigate(`/${category.name}`)}>{category.name}</MenuItem>
+                    ))}
                     <MenuItem onClick={() => navigate('/MyPosts')}>My Posts</MenuItem>
-                    {adminLevel === 1 && <MenuItem onClick={() => navigate('/MyPosts')}>New Category</MenuItem>}
+                    
+                    
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

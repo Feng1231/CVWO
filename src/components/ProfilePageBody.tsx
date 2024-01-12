@@ -19,8 +19,10 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
 import moment from 'moment';
 import Grid from '@mui/material/Grid';
-import { checkValidPasswordEdit } from './loginFunctions';
+import { checkValidPasswordEdit } from './Miscellaneous/loginFunctions';
 import'../App.types';
+import { ProfilePageBodyProps, UserProps } from '../App.types';
+import { FC } from 'react';
 
 const Item = styled(Paper)(({ theme }) => ({
   width: 800,
@@ -32,7 +34,13 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
   var tempNewPassword: string = "";
   var tempConfirmPassword: string = "";
-export default function ProfilePageBody() {
+
+const ProfilePageBody: FC<ProfilePageBodyProps> = ({ user }) => {
+
+  const username = 'username' in user ? user.username : "";
+  const admin_level = 'admin_level' in user ? user.admin_level : 0
+  const user_type = admin_level === 1 ? 'admin' : 'user';
+
   const [showOldPassword, setShowOldPassword] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
@@ -62,8 +70,7 @@ export default function ProfilePageBody() {
   const confirmEdit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      // eslint-disable-next-line no-restricted-globals
-      var shouldEdit = confirm("Please confirm that you want to edit your password");
+      var shouldEdit = window.confirm("Please confirm that you want to edit your password");
       if (shouldEdit) {
         checkValidPasswordEdit(data);
       }
@@ -74,8 +81,7 @@ export default function ProfilePageBody() {
       setShowForm(prevOpen => !prevOpen);
     }
     setTimeout(()=> {
-        // eslint-disable-next-line no-restricted-globals
-      var shouldDelete = confirm("Are you sure you want to delete your account?");
+      var shouldDelete = window.confirm("Are you sure you want to delete your account?");
       if (shouldDelete) {
         alert('ok');
       }
@@ -88,16 +94,7 @@ export default function ProfilePageBody() {
     setShowForm(prevOpen => !prevOpen);
   }
 
-  function createData(username: string, userType: string, dateCreated: String) {
-    return { username, userType, dateCreated };
-  }
 
-  const date = moment("12/02/2023 12:12").format("DD/MM/YYYY HH:mm");
-  
-  const rows = [
-    createData('Admin', 'Admin', date)
-    
-  ];
     
   return (
       <div className='ProfilePageBody'>
@@ -116,24 +113,20 @@ export default function ProfilePageBody() {
               <TableHead>
                 <TableRow>
                   <TableCell align="left">Username</TableCell>
-                  <TableCell align="center">User Type</TableCell>
-                  <TableCell align="right">Date Created</TableCell>
+                  <TableCell align="center"></TableCell>
+                  <TableCell align="right">User Type</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-              {rows.map((row) => (
-                  <TableRow key={row.username}>
+                  <TableRow>
                     <TableCell style={{width:80}} component="th" scope="row" align="left">
-                      {row.username}
+                      {username}
                     </TableCell>
-                    <TableCell style={{ width: 160 }} align="center">
-                      {row.userType}
-                    </TableCell>
+                    <TableCell style={{ width: 160 }} align="center"></TableCell>
                     <TableCell style={{ width: 160 }} align="right">
-                      {row.dateCreated}
+                      {user_type}
                     </TableCell>
                   </TableRow>
-                ))}
               </TableBody>
               <TableFooter>
               <TableCell align="left"><Button size='small' onClick={handleEditPassword}>Change Password</Button></TableCell>
@@ -257,3 +250,5 @@ export default function ProfilePageBody() {
         </div>
   );
 }
+
+export default ProfilePageBody;

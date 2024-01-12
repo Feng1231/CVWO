@@ -4,29 +4,29 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { IconButton } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
-import '../assets/css/App.css';
-import { checkValidPostCreation } from './loginFunctions';
+import '../../assets/css/App.css';
+import { checkValidPostCreation } from '../Miscellaneous/loginFunctions';
 import { useParams } from 'react-router-dom';
-import { AddPostProps, UserProps } from '../App.types';
+import { AddCommentProps, UserProps } from '../../App.types';
 import { FC } from 'react';
-const AddPost: FC<AddPostProps>= ({ user }) => {
-  let { categoryID } = useParams();
-  const user_id = 'id' in user ? user.id : -1;
+import { categoryNew } from '../Miscellaneous/apiRequests';
+import { RefreshPage } from '../../App';
+
+const AddComment: FC<AddCommentProps> = ({ user, post, handleModal }) => {
+
+  const admin_level = 'admin_level' in user ? user.admin_level : -1;
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const post = {
-      title: (data.get('title') as string).trim(),
-      body: data.get('body') as string,
-      category_id: categoryID,
-      user_id: user_id
-    }
+    setOpen(false);
+    
   };
   const [open, setOpen] = React.useState(false);
   const [count1, setCount1] = React.useState(0);
-  const [count2, setCount2] = React.useState(0);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -37,49 +37,39 @@ const AddPost: FC<AddPostProps>= ({ user }) => {
   
   return (
     <>
-      <IconButton color='inherit' onClick={handleClickOpen}>
-        <AddIcon />
-      </IconButton>
+      <Button 
+        sx={{ '&:hover': {backgroundColor: 'transparent'}}}
+        size="small" 
+        color='inherit' 
+        variant="text" 
+        onClick={handleClickOpen}
+      >
+        <Typography variant="overline">comment</Typography>
+      </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create Post</DialogTitle>
+        <DialogTitle>New Comment</DialogTitle>
         <DialogContent>
-          <Box component="form" action="Profile" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <label>
-              <div className="left"><b>Title</b></div>
-              <div className='right'>{count1}/50</div>
+              <div className="left"><b>Comment</b></div>
+              <div className='right'>{count1}/400</div>
             </label>
             <TextField
-              inputProps={{maxLength: 50}}
+              inputProps={{maxLength: 400}}
               margin="normal"
               required
               fullWidth
-              id="title"
-              label="Input Title"
-              name="title"
-              autoComplete="Title"
+              id="comment"
+              label="Input comment"
+              name="comment"
               autoFocus
               onChange={e => setCount1(e.target.value.length)}
-            />
-            <label>
-              <div className="left"><b>Title</b></div>
-              <div className='right'>{count2}/2000</div>
-            </label>
-            <TextField
-              inputProps={{maxLength: 2000}}
               multiline
+              maxRows={9} 
               minRows={9}
-              maxRows={9}    
-              margin="normal"
-              required
-              fullWidth
-              name="body"
-              label="Input Body"
-              type="body"
-              id="body"
-              autoComplete="Body"
-              onChange={e => setCount2(e.target.value.length)}
-            />
+                
             
+            />
             <div className="right">
             <Button 
               onClick={handleClose}
@@ -103,4 +93,4 @@ const AddPost: FC<AddPostProps>= ({ user }) => {
   );
 }
 
-export default AddPost;
+export default AddComment;

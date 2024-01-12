@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { UserSignInProps ,UserSignUpProps, UserProps, CategoryNewProps, CategoryEditProps, PostNewProps, PostEditProps, CommentNewProps, CommentEditProps, CommentProps} from '../App.types';
+import { UserSignInProps ,UserSignUpProps, UserProps, CategoryNewProps, CategoryEditProps, PostNewProps, PostEditProps, CommentNewProps, CommentEditProps, CommentProps} from '../../App.types';
 const URL = 'http://127.0.0.1:3000/';
 
 const organizeErrors = (errors: string | string[]) => {
@@ -70,16 +70,13 @@ const userSignedIn = async () => {
 };
 
 // check cookie matches any user's token
-const checkCookies = async (cookie:string) => axios.get(`${URL}retrieve}`, { headers: { Authorization: cookie }})
+const checkCookies = async (cookie:string) => axios.get(`${URL}retrieve`, { headers: { Authorization: cookie }})
   .then (response => {
     const retrievedUser = response.data.user;
     
     return { user: retrievedUser, success: true };
   })
-  .catch(error => {
-    errorCatch(error)
-    return { user: { logged_in: false }, success: false };
-});
+  .catch(error => errorCatch(error));
 
 // fetch user data
 const fetchUser = async (id: number) => axios.get(`${URL}users/${id}`)
@@ -123,9 +120,8 @@ const categoryRemove = async (categoryID: number) => {
     if (sessionStorage.getItem('user')) login = JSON.parse(sessionStorage.getItem('user')!);
     return axios.delete(`${URL}category/${categoryID}`, { headers: { Authorization: login.token } })
         .then(response => {
-        const { categories } = response.data;
 
-        return { categories, success: true };
+        return { success: true };
         })
         .catch(error => errorCatch(error));
 };
@@ -133,34 +129,30 @@ const categoryRemove = async (categoryID: number) => {
 // Fetch all categories
 const fetchAllCategories = async () => axios.get(`${URL}category/all`)
   .then(response => {
-    const { categories } = response.data;
+    const { categories } = response.data.results;
 
     return { categories, success: true };
   })
   .catch(error => errorCatch(error));
 
 //Fetch all categories and posts
-const fetchAllCategoryPosts = async (per_page = 5, page = 1) => axios.get(`${URL}category`, { params: { per_page, page } })
-  .then(response => {
-    const {
-      categories, pinned_posts, per_page, page,
-    } = response.data.results;
+const fetchAllCategoryPosts = async () => axios.get(`${URL}category`)
+  .then(response => {  
+    
+    const { categories, pinned_posts } = response.data.results;
 
     return {
-      categories, pinned_posts, per_page, page, success: true,
+      categories, pinned_posts, success: true,
     };
   })
   .catch(error => errorCatch(error));
 
 // Fetch Specific Category and Posts
-const fetchCategoryPosts = async (category: string, per_page = 5, page = 1) => axios.get(`${URL}category/${category}`, { params: { per_page, page } })
+const fetchCategoryPosts = async (category: string) => axios.get(`${URL}category/${category}`)
   .then(response => {
-    const {
-      category, per_page, page,
-    } = response.data.results;
-
+    const { category } = response.data.results;
     return {
-      category, per_page, page, success: true,
+      category, success: true,
     };
   })
   .catch(error => errorCatch(error));
@@ -168,11 +160,10 @@ const fetchCategoryPosts = async (category: string, per_page = 5, page = 1) => a
 const postNew = async (post: PostNewProps) => {
     let login;
     if (sessionStorage.getItem('user')) login = JSON.parse(sessionStorage.getItem('user')!);
-    return axios.post(`${URL}posts`, post,
+    return axios.post(`${URL}post`, post,
         { headers: { 'Content-Type': 'application/json', Authorization: login.token } })
         .then(response => {
             const { post } = response.data;
-    
             return { post, success: true };
         })
         .catch(error => errorCatch(error));
@@ -196,7 +187,7 @@ const postEdit = async ({postID, post}: PostEditProps) => {
 const postHandlePin = async (postID: number) => {
     let login;
     if (sessionStorage.getItem('user')) login = JSON.parse(sessionStorage.getItem('user')!);
-    return axios.patch(`${URL}posts/${postID}/pin_post`, null, { headers: { Authorization: login.token } })
+    return axios.patch(`${URL}post/${postID}/pin_post`, null, { headers: { Authorization: login.token } })
         .then(response => {
             const { post } = response.data;
     
@@ -209,7 +200,7 @@ const postHandlePin = async (postID: number) => {
 const postRemove = async (postID: number) => {
     let login;
     if (sessionStorage.getItem('user')) login = JSON.parse(sessionStorage.getItem('user')!);
-    return axios.delete(`${URL}posts/${postID}`, { headers: { Authorization: login.token } })
+    return axios.delete(`${URL}post/${postID}`, { headers: { Authorization: login.token } })
         .then(response => {
             const { message } = response.data;
     
@@ -219,7 +210,7 @@ const postRemove = async (postID: number) => {
 };
 
 // Fetch post by ID
-const fetchPost = async (id: number) => axios.get(`${URL}posts/${id}`)
+const fetchPost = async (id: number) => axios.get(`${URL}post/${id}`)
     .then(response => {
         const { post, comments } = response.data;
 

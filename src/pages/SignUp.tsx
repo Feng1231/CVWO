@@ -14,7 +14,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
 import { SignUpProps } from '../App.types';
-import { userSignUp } from '../components/apiRequests';
+import { userSignUp } from '../components/Miscellaneous/apiRequests';
 import { useNavigate } from 'react-router-dom';
 
 
