@@ -23,11 +23,11 @@ const SignIn: FC<SignInProps> = ({ handleModal, handleLogin }) => {
 
   
   const navigate = useNavigate();
-  const authToken = Cookies.get('token');
+  const token = Cookies.get('token');
   // const checked = useRef(false);
   const [checked, setChecked] = useState(false);
-  setTimeout(()=>{if (authToken && !checked) {
-    checkCookies(authToken)
+  setTimeout(()=>{if (token && !checked) {
+    checkCookies(token)
       .then(response => {
         if ('user' in response && response.success) {
           handleLogin(response.user);
@@ -105,6 +105,7 @@ const SignIn: FC<SignInProps> = ({ handleModal, handleLogin }) => {
               endAdornment: 
                 <InputAdornment position="end">
                   <IconButton
+                    tabIndex={-1}
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}

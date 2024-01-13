@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import '../assets/css/App.css';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
@@ -23,6 +23,8 @@ import { checkValidPasswordEdit } from './Miscellaneous/loginFunctions';
 import'../App.types';
 import { ProfilePageBodyProps, UserProps } from '../App.types';
 import { FC } from 'react';
+import { changePassword, userDelete } from './Miscellaneous/apiRequests';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Item = styled(Paper)(({ theme }) => ({
   width: 800,
@@ -34,12 +36,15 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
   var tempNewPassword: string = "";
   var tempConfirmPassword: string = "";
-
-const ProfilePageBody: FC<ProfilePageBodyProps> = ({ user }) => {
-
+  
+const ProfilePageBody: FC<ProfilePageBodyProps> = ({ user, handleModal, handleLogout }) => {
+  const navigate = useNavigate();
   const username = 'username' in user ? user.username : "";
   const admin_level = 'admin_level' in user ? user.admin_level : 0
   const user_type = admin_level === 1 ? 'admin' : 'user';
+
+  const { id } = useParams();
+
 
   const [showOldPassword, setShowOldPassword] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = React.useState(false);
@@ -68,72 +73,103 @@ const ProfilePageBody: FC<ProfilePageBodyProps> = ({ user }) => {
   }
   const [showForm, setShowForm] = React.useState(false);
   const confirmEdit = (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      var shouldEdit = window.confirm("Please confirm that you want to edit your password");
-      if (shouldEdit) {
-        checkValidPasswordEdit(data);
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const shouldEdit = window.confirm("Please confirm that you want to edit your password");
+    if (shouldEdit) {
+      const user = {
+        old_password: data.get('oldPassword') as string,
+        password: data.get('newPassword') as string,
+        password_confirmation: data.get('confirmPassword') as string
       }
+      changePassword(user)
+        .then(response => {
+          if ('message' in response && response.success) { 
+            handleModal(response.message);
+            setTimeout(() => {
+              handleLogout();
+              navigate('/SignIn'); 
+            }, 1000);
+          }
+
+          if ('errors' in response && !response.success) handleModal(response.errors);
+        }
+      )
+    } 
   }
   const confirmDelete = () => {
     if (showForm) {
       resetValues();
       setShowForm(prevOpen => !prevOpen);
     }
-    setTimeout(()=> {
-      var shouldDelete = window.confirm("Are you sure you want to delete your account?");
-      if (shouldDelete) {
-        alert('ok');
-      }
-    }, 1);
-  }
+    const shouldDelete = window.confirm("Are you sure you want to Delete your account? \nThis action is irreversible.");
+    if (shouldDelete) {
+      userDelete(Number(id!))
+        .then(response => {
+          if ('message' in response && response.success) {
+            handleModal(response.message);
+            setTimeout(() => {navigate('/SignIn'); }, 1000);
+          }
+
+          if ('errors' in response && !response.success) handleModal(response.errors);
+        }
+      )
+    }
+  };
+  
   const handleEditPassword = () => {
     if (showForm) {
       resetValues();
     }
     setShowForm(prevOpen => !prevOpen);
   }
-
-
-    
+   
   return (
-      <div className='ProfilePageBody'>
-        <Box
-          sx={{ 
-            mt: 3,
-            display: 'flex',
-          }}
-          >
-
+    <div className='ProfilePageBody'>
+      <Box sx={{ mt: 3, display: 'flex'}}>
         <Item elevation={5}>
-         <b>PROFILE</b>
+        <Typography variant="overline"><b>PROFILE</b></Typography>
           <Divider />
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 500 }} aria-label="User info table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">Username</TableCell>
+                  <TableCell align="left"><Typography variant="overline">Username</Typography></TableCell>
                   <TableCell align="center"></TableCell>
-                  <TableCell align="right">User Type</TableCell>
+                  <TableCell align="right"><Typography variant="overline">User Type</Typography></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                   <TableRow>
                     <TableCell style={{width:80}} component="th" scope="row" align="left">
-                      {username}
+                    <Typography variant="overline">{username}</Typography>
                     </TableCell>
                     <TableCell style={{ width: 160 }} align="center"></TableCell>
                     <TableCell style={{ width: 160 }} align="right">
-                      {user_type}
+                    <Typography variant="overline">{user_type}</Typography>
                     </TableCell>
                   </TableRow>
               </TableBody>
               <TableFooter>
-              <TableCell align="left"><Button size='small' onClick={handleEditPassword}>Change Password</Button></TableCell>
-              <TableCell align="center"></TableCell>
-              <TableCell align="right"><Button size='small' onClick={confirmDelete}>Delete Account</Button></TableCell>
-              
-              
+                <TableCell align="left">
+                  <Button 
+                    size='small' 
+                    onClick={handleEditPassword} 
+                    sx={{'&:hover': {backgroundColor: 'transparent'}}}
+                  >
+                    <Typography variant='overline'>Change Password</Typography>
+                  </Button>
+                </TableCell>
+                <TableCell align="center"></TableCell>
+                <TableCell align="right">
+                  <Button 
+                    size='small' 
+                    onClick={confirmDelete} 
+                    sx={{'&:hover': {backgroundColor: 'transparent'}}}
+                  >
+                    <Typography variant='overline'>Delete Account</Typography>
+                  </Button>
+                </TableCell>
               </TableFooter>
             </Table>
           </TableContainer>
@@ -155,6 +191,7 @@ const ProfilePageBody: FC<ProfilePageBodyProps> = ({ user }) => {
                       endAdornment: 
                         <InputAdornment position="end">
                           <IconButton
+                            tabIndex={-1}
                             aria-label="toggle password visibility"
                             onClick={handleClickShowOldPassword}
                             onMouseDown={handleMouseDownOldPassword}
@@ -181,6 +218,7 @@ const ProfilePageBody: FC<ProfilePageBodyProps> = ({ user }) => {
                       endAdornment: 
                         <InputAdornment position="end">
                           <IconButton
+                            tabIndex={-1}
                             aria-label="toggle password visibility"
                             onClick={handleClickShowNewPassword}
                             onMouseDown={handleMouseDownNewPassword}
@@ -215,6 +253,7 @@ const ProfilePageBody: FC<ProfilePageBodyProps> = ({ user }) => {
                       endAdornment: 
                         <InputAdornment position="end">
                           <IconButton
+                            tabIndex={-1}
                             aria-label="toggle password visibility"
                             onClick={handleClickShowConfirmPassword}
                             onMouseDown={handleMouseDownConfirmPassword}
@@ -234,20 +273,21 @@ const ProfilePageBody: FC<ProfilePageBodyProps> = ({ user }) => {
                         : " "}
                   />
                 </Grid>
+                
+                <Button
+                  type="submit"
+                  variant="text"
+                  sx={{ mt: 0, mb: 0, marginLeft:'auto', '&:hover': {backgroundColor: 'transparent'}}}
+                  size='small'
+                >
+                  <Typography variant='overline'>Confirm</Typography>
+                </Button>
               </Grid>
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{ mt: 0, mb: 0 }}
-              >
-                Confirm
-              </Button>
             </Box>
           )}
         </Item>
-          </Box>
-
-        </div>
+      </Box>
+    </div>
   );
 }
 

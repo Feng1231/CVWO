@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { ModalProps } from '../App.types';
+import { ModalProps } from '../../App.types';
 import { Button, Container, Dialog, DialogContent, DialogTitle, Divider } from '@mui/material';
 
 const Modal: FC<ModalProps> = ({ errors, handleModal }) => {

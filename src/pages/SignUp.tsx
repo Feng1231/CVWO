@@ -109,6 +109,7 @@ const SignUp: FC<SignUpProps> = ({handleModal}) => {
                   endAdornment: 
                     <InputAdornment position="end">
                       <IconButton
+                        tabIndex={-1}
                         aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
@@ -142,6 +143,7 @@ const SignUp: FC<SignUpProps> = ({handleModal}) => {
                   endAdornment: 
                     <InputAdornment position="end">
                       <IconButton
+                        tabIndex={-1} 
                         aria-label="toggle password visibility"
                         onClick={handleClickShowConfirmPassword}
                         onMouseDown={handleMouseDownConfirmPassword}
@@ -183,8 +185,6 @@ const SignUp: FC<SignUpProps> = ({handleModal}) => {
     </Container>
   );
 }
-function handleModal(arg0: string[]) {
-  throw new Error('Function not implemented.');
-}
+
 
 export default SignUp;

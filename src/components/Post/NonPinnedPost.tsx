@@ -35,9 +35,10 @@ const NonPinnedPost: FC<NonPinnedPostProps> = ({ user, post, handleModal }) =>{
     const handlePinPost = () => {
         postHandlePin(post.id)
             .then(response => {
+                if (response.success) setTimeout(()=> RefreshPage(), 500);
                 if ('errors' in response && !response.success) handleModal(response.errors)
             })
-        setTimeout(()=> RefreshPage(), 500);
+
     }
     const handleDelete = () => {
 
@@ -45,10 +46,12 @@ const NonPinnedPost: FC<NonPinnedPostProps> = ({ user, post, handleModal }) =>{
         if (confirmDelete) {
             postRemove(post.id)
                 .then(response => {
-                    if(response.success) alert('Post Deleted!');
+                    if(response.success) {
+                        alert('Post Deleted!');
+                        setTimeout(() => RefreshPage(), 500);
+                    }
                     if('errors' in response && !response.success) handleModal(response.errors);
                 })
-            // setTimeout(() => RefreshPage(), 1000);
         }
     }
     
@@ -86,9 +89,9 @@ const NonPinnedPost: FC<NonPinnedPostProps> = ({ user, post, handleModal }) =>{
                         }}
                     >
                         <Typography variant="overline">{`Category: ${post.category}`}</Typography>
-                        <Typography variant="h6" color="inherit">{post.title}</Typography>
-                        <Divider>{`Last updated by ${username} on ${date}`}</Divider>
-                        <Typography variant="body2" color="inherit" paragraph>
+                        <Typography variant="h6" color="text.primary">{post.title}</Typography>
+                        <Divider><Typography variant="overline">{`Last updated by ${username} on ${date}`}</Typography></Divider>
+                        <Typography variant="body2" color="text.secondary" paragraph>
                             {post.body}
                         </Typography>
                     </Box>

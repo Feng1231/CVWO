@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { UserSignInProps ,UserSignUpProps, UserProps, CategoryNewProps, CategoryEditProps, PostNewProps, PostEditProps, CommentNewProps, CommentEditProps, CommentProps} from '../../App.types';
+import { UserSignInProps ,UserSignUpProps, UserProps, CategoryNewProps, CategoryEditProps, PostNewProps, PostEditProps, CommentNewProps, CommentEditProps, CommentProps, changePasswordProps} from '../../App.types';
 const URL = 'http://127.0.0.1:3000/';
 
 const organizeErrors = (errors: string | string[]) => {
@@ -39,8 +39,8 @@ const userLogout = async () => {
     if (sessionStorage.getItem('user')) login = await JSON.parse(sessionStorage.getItem('user')!);
     sessionStorage.clear();
     return axios.patch(`${URL}logout`, null, { headers: { Authorization: login.token } })
-    .then(() => ({ success: true }))
-    .catch(error => errorCatch(error));
+      .then(() => ({ success: true }))
+      .catch(error => errorCatch(error));
 };
 
 const userSignUp = async (user: UserSignUpProps) => {
@@ -56,21 +56,35 @@ const userSignUp = async (user: UserSignUpProps) => {
 
 // Is User Still Signed In?
 const userSignedIn = async () => {
-    if (sessionStorage.getItem('user')) {
-        const user = JSON.parse(sessionStorage.getItem('user')!);
-        return await axios.get(`${URL}logged_in`, { headers: { Authorization: user.token } })
-            .then(response => {
-                const retrievedUser = response.data.user;
-        
-                return { user: retrievedUser, success: true };
-            })
-            .catch(error => errorCatch(error));
-    }   
-    return { user: { logged_in: false }, success: true };
+  if (sessionStorage.getItem('user')) {
+      const user = JSON.parse(sessionStorage.getItem('user')!);
+      return await axios.get(`${URL}logged_in`, { headers: { Authorization: user.token } })
+          .then(response => {
+              const retrievedUser = response.data.user;
+      
+              return { user: retrievedUser, success: true };
+          })
+          .catch(error => errorCatch(error));
+  }   
+  return { user: { logged_in: false }, success: true };
+};
+
+const userDelete = async (userID: number) => {
+  let login;
+  if (sessionStorage.getItem('user')) login = JSON.parse(sessionStorage.getItem('user')!);
+  console.log(login);
+  // sessionStorage.clear();
+  return axios.delete(`${URL}sign_up/${userID}`, { headers: { Authorization: login.token } })
+    .then(response => {
+      const { message } = response.data;
+
+      return { message, success: true };
+    })
+    .catch(error => errorCatch(error))
 };
 
 // check cookie matches any user's token
-const checkCookies = async (cookie:string) => axios.get(`${URL}retrieve`, { headers: { Authorization: cookie }})
+const checkCookies = async (token:string) => axios.get(`${URL}retrieve`, { headers: { Authorization: token }})
   .then (response => {
     const retrievedUser = response.data.user;
     
@@ -252,7 +266,7 @@ const commentRemove = async (comment: CommentProps) => {
     return axios(
         {
         method: 'delete',
-        url: `${URL}comments/${comment.id}`,
+        url: `${URL}comment/${comment.id}`,
         headers: { Authorization: login.token },
         data: comment,
         },
@@ -264,7 +278,19 @@ const commentRemove = async (comment: CommentProps) => {
         })
         .catch(error => errorCatch(error));
 };
-export { userSignIn, userLogout, userSignUp, userSignedIn, fetchUser,
+
+const changePassword = async (user: changePasswordProps) => {
+  let login;
+  if (sessionStorage.getItem('user')) login = JSON.parse(sessionStorage.getItem('user')!);
+  return axios.patch(`${URL}change_password`, { user }, { headers: { Authorization: login.token } })
+    .then(response => {
+      const { message } = response.data;
+
+      return { message, success: true };
+    })
+    .catch(error => errorCatch(error))
+;}
+export { userSignIn, userLogout, userSignUp, userSignedIn, userDelete, fetchUser,
          categoryNew, categoryEdit, categoryRemove, fetchAllCategories, fetchAllCategoryPosts, fetchCategoryPosts,
          postNew, postEdit, postRemove, postHandlePin, fetchPost, 
-         commentNew, commentEdit, commentRemove, checkCookies};
+         commentNew, commentEdit, commentRemove, checkCookies, changePassword};

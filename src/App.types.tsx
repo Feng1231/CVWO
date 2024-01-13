@@ -71,6 +71,7 @@ export interface PrimarySearchAppBarProps {
     categories: CategoryProps[];
     handleLogout: () => void;
     handleModal: (errors?: string | string[]) => void;
+    handleSearchPost: (search:string) => void;
 
 }
 
@@ -82,12 +83,23 @@ export interface MenuListCompositionProps {
 
 export interface ProfilePageAppBarProps {
     user: UserProps | {logged_in: boolean};
+    handleLogout: () => void;
+
 }
 
 export interface ProfilePageBodyProps {
     user: UserProps | {logged_in: boolean};
+    handleModal: (errors?: string | string[]) => void;
+    handleLogout: () => void;
+
 }
 
+export interface AdminPanelProps {
+    user: UserProps | {logged_in: boolean};
+    handleModal: (errors?: string | string[]) => void;
+    handleLogout: () => void;
+
+}
 export interface AddPostProps {
     user: UserProps | {logged_in: boolean};
     categories: CategoryProps[];
@@ -104,7 +116,30 @@ export interface EditPostProps {
 
 export interface AddCommentProps {
     user: UserProps | {logged_in: boolean};
+    postID: number;
+    handleModal: (errors?: string | string[]) => void;
+    commentID?: number;
+}
+
+export interface EditCommentProps {
+    user: UserProps | {logged_in: boolean};
+    postID: number;
+    handleModal: (errors?: string | string[]) => void;
+    comment: CommentProps;
+
+}
+export interface CommentSectionProps {
+    user: UserProps | {logged_in: boolean};
     post: PostProps;
+    comments: CommentProps[];
+    handleModal: (errors?: string | string[]) => void;
+}
+
+export interface CommentDisplayProps {
+    key: number
+    user: UserProps | {logged_in: boolean};
+    comments: CommentProps[];
+    comment: CommentProps;
     handleModal: (errors?: string | string[]) => void;
 }
 export interface MyPostsProps {
@@ -128,12 +163,12 @@ export interface AddCategoryProps {
 
 export interface RenameCategoryProps {
     user: UserProps | {logged_in: boolean};
-    categories: CategoryProps[];
+    categories: CategoryOnlyProps[];
     handleModal: (errors?: string | string[]) => void;
 }
 export interface DeleteCategoryProps {
     user: UserProps | {logged_in: boolean};
-    categories: CategoryProps[];
+    categories: CategoryOnlyProps[];
     handleModal: (errors?: string | string[]) => void;
 }
 
@@ -147,12 +182,15 @@ export interface FullPostProps {
 
 }
 
-export interface CategoryProps {
+export interface CategoryProps extends CategoryOnlyProps{
+    posts: PostProps[];
+}
+
+export interface CategoryOnlyProps {
     id: number;
     name: string;
     created_at: Date;
     updated_at: Date;
-    posts: PostProps[];
 }
 
 export interface CategoryNewProps {
@@ -197,7 +235,7 @@ export interface PostEditProps {
 export interface CommentNewProps {
     body: string;
     user_id: number;
-    comment_id: number;
+    comment_id?: number;
     post_id: number;
 }
 
@@ -208,6 +246,12 @@ export interface CommentEditProps {
     post_id: number;
 }
 
+export interface changePasswordProps {
+    old_password: string;
+    password: string;
+    password_confirmation: string;
+}
+
 export interface CommentProps {
     id: number;
     body: string;
@@ -216,10 +260,10 @@ export interface CommentProps {
     post_id: number;
     created_at: Date;
     updated_at: Date;
+    author: string;
 }
 export interface ProfileProps {
     user: UserProps | { logged_in: boolean };
-
     handleModal: (errors?: string | string[]) => void;
     handleLogout: () => void;
 }

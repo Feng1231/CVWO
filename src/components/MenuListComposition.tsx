@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { MenuListCompositionProps } from '../App.types';
 import { FC } from 'react';
 import AddCategory from './Category_AdminOnly/AddCategory';
+import Typography from '@mui/material/Typography';
 
 
 const MenuListComposition: FC<MenuListCompositionProps> = ({ user, categories, handleModal }) => {
@@ -66,6 +67,8 @@ const MenuListComposition: FC<MenuListCompositionProps> = ({ user, categories, h
           onClick={handleToggle}
           color='inherit'
           size='small'
+          sx={{'&:hover': {backgroundColor: 'transparent'}}}
+
         >
           <MenuIcon />
         </IconButton>
@@ -94,11 +97,11 @@ const MenuListComposition: FC<MenuListCompositionProps> = ({ user, categories, h
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem onClick={() => navigate('/')}>General</MenuItem>
+                    <MenuItem onClick={() => navigate('/')}><Typography variant="overline">Home</Typography></MenuItem>
                     {categories.map(category => (
-                      <MenuItem onClick={() => navigate(`/${category.name}`)}>{category.name}</MenuItem>
+                      <MenuItem onClick={() => navigate(`/${category.name}`)}><Typography variant="overline">{category.name}</Typography></MenuItem>
                     ))}
-                    <MenuItem onClick={() => navigate('/MyPosts')}>My Posts</MenuItem>
+                    <MenuItem onClick={() => navigate('/MyPosts')}><Typography variant="overline">My Posts</Typography></MenuItem>
                     
                     
                   </MenuList>

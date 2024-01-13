@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState, useCallback } from "react";
 import { CategoryPageProps, CategoryProps } from "../App.types";
 import { useParams } from "react-router-dom";
 import { Divider, Chip, Container } from "@mui/material";
@@ -10,10 +10,15 @@ import { fetchAllCategories, fetchAllCategoryPosts } from "../components/Miscell
 import NoPage from "./NoPage";
 
 const CategoryPage: FC<CategoryPageProps> = ( { user, handleLogout, handleModal } ) => {
+    const [searchPost, setSearchPost] = useState('');
     let { category } = useParams();
     const [pinnedPosts, setPinnedPosts] = useState([]);
     const [categoryTopics, setCategoryTopics] = useState<CategoryProps[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const handleSearchPost = useCallback((search:string) => {
+        setSearchPost(search);
+    },[setSearchPost]);
 
     const populatePinnedPosts = () => pinnedPosts.map(post => (
           <PinnedPost user={user} post={post} handleModal={handleModal}/>
@@ -21,9 +26,9 @@ const CategoryPage: FC<CategoryPageProps> = ( { user, handleLogout, handleModal 
 
     const populateCategoryPosts = () => categoryTopics.filter(categoryData => categoryData.name === category).map(categoryData => (
         <div key={categoryData.id}>
-        <Divider><Chip label={ categoryData.name } size='medium'/></Divider>
-        {categoryData.posts.filter(post => !post.is_pinned).map(post => (
-                
+        <Divider />
+        {categoryData.posts.filter(post => (post.title.includes(searchPost) || searchPost==='') && !post.is_pinned).map(post => (
+        
                 <NonPinnedPost user={user} post={post} handleModal={handleModal}/>
             ))}
         </div>
@@ -50,7 +55,7 @@ const CategoryPage: FC<CategoryPageProps> = ( { user, handleLogout, handleModal 
         : !categoryTopics.find(categoryData => categoryData.name === category)
             ? (<NoPage statusCode={404} />)
             : (<>
-                <PrimarySearchAppBar user={user} categories={categoryTopics} handleLogout={handleLogout} handleModal={handleModal}/>
+                <PrimarySearchAppBar user={user} categories={categoryTopics} handleLogout={handleLogout} handleModal={handleModal} handleSearchPost={handleSearchPost}/>
                 <Container maxWidth='xl'>
                     <Header title={category}/>
                     <>{populatePinnedPosts()}</>

@@ -5,7 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { IconButton, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import '../../assets/css/App.css';
@@ -31,10 +31,13 @@ const AddPost: FC<AddPostProps>= ({ user, categories, handleModal }) => {
     
     postNew(post)
       .then(response => {
-        if (response.success) alert('post created!')
+        if (response.success) {
+          alert('post created!');
+          setTimeout(() => RefreshPage(), 500);
+        }
         if ('errors' in response && !response.success) handleModal(response.errors)
       })
-    setTimeout(() => RefreshPage(), 1000)
+    
     
   };
 
@@ -52,24 +55,27 @@ const AddPost: FC<AddPostProps>= ({ user, categories, handleModal }) => {
 
   const handleClose = () => {
     setOpen(false);
+    setCount1(0);
+    setCount2(0);
   };
   
   return (
     <>
-      <IconButton color='inherit' onClick={handleClickOpen} >
+      <IconButton color='inherit' onClick={handleClickOpen} sx={{'&:hover': {backgroundColor: 'transparent'}}}>
         <AddIcon />
       </IconButton>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create Post</DialogTitle>
+      <Dialog open={open} onClose={handleClose} fullWidth>
+        <DialogTitle><Typography variant='overline' fontSize={16}>Create Post</Typography></DialogTitle>
         <DialogContent>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <label>
-              <div className="left"><b>Title</b></div>
-              <div className='right'>{count1}/50</div>
-            </label>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 0 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <InputLabel id="title-label">
+            <Typography variant='overline' fontSize={10} color="black"><b>Title</b></Typography>
+          </InputLabel>
+          <Typography variant='overline' fontSize={10} color="black"><b>{count1}/50</b></Typography>
+          </div>
             <TextField
               inputProps={{maxLength: 50}}
-              margin="normal"
               required
               fullWidth
               id="title"
@@ -79,16 +85,17 @@ const AddPost: FC<AddPostProps>= ({ user, categories, handleModal }) => {
               autoFocus
               onChange={e => setCount1(e.target.value.length)}
             />
-            <label>
-              <div className="left"><b>Body</b></div>
-              <div className='right'>{count2}/2000</div>
-            </label>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <InputLabel id="body-label">
+                <Typography variant='overline' fontSize={10} color="black"><b>Body</b></Typography>
+              </InputLabel>
+              <Typography variant='overline' fontSize={10} color="black"><b>{count2}/2000</b></Typography>
+            </div>
             <TextField
               inputProps={{maxLength: 2000}}
               multiline
               minRows={9}
               maxRows={9}    
-              margin="normal"
               required
               fullWidth
               name="body"
@@ -99,7 +106,10 @@ const AddPost: FC<AddPostProps>= ({ user, categories, handleModal }) => {
               onChange={e => setCount2(e.target.value.length)}
             />
             
-            <div className="left"><InputLabel id="select-category-label">Category</InputLabel>
+            <div className="left">
+            <InputLabel id="select-category-label">
+              <Typography variant='overline' fontSize={10} color="black">category</Typography>
+            </InputLabel>
               <Select
                 sx={{width:200}}
                 labelId="select-category-label"
@@ -122,18 +132,19 @@ const AddPost: FC<AddPostProps>= ({ user, categories, handleModal }) => {
             <Button 
               onClick={handleClose}
               variant="text"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 4, mb: 1, '&:hover': {backgroundColor: 'transparent'}}}
             >
-                Cancel
+              <Typography variant='overline'>cancel</Typography>
             </Button>
             <Button
               type="submit"
               variant="text"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 4, mb: 1, '&:hover': {backgroundColor: 'transparent'}}}
+
             >
-              Submit
+              <Typography variant='overline'>Submit</Typography>
+              
             </Button>
-            
             </div>
           </Box>
         </DialogContent>

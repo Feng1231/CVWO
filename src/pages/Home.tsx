@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import Header from '../components/Miscellaneous/Header'
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -10,22 +10,28 @@ import Chip from '@mui/material/Chip';
 import { User, Post, HomeProps, CategoryProps } from '../App.types';
 import NoPage from './NoPage';
 import { fetchAllCategories, fetchAllCategoryPosts } from '../components/Miscellaneous/apiRequests';
+import { setSelectionRange } from '@testing-library/user-event/dist/utils';
 
 
 const Home: FC<HomeProps> = ({ user, handleLogout, handleModal }) => {
-
+    const [searchPost, setSearchPost] = useState('');
     const [pinnedPosts, setPinnedPosts] = useState([]);
     const [categoryTopics, setCategoryTopics] = useState<CategoryProps[]>([]);
     
+    const handleSearchPost = useCallback((search:string) => {
+        setSearchPost(search);
+        console.log(search);
+    },[setSearchPost]);
+
     const populatePinnedPosts = () => pinnedPosts.map(post => (
           <PinnedPost user={user} post={post} handleModal={handleModal}/>
       ));
 
     const populateAllCategories = () => categoryTopics.map(categoryData => (
         <div key={categoryData.id}>
-        {categoryData.posts.filter(post => !post.is_pinned).length > 0 &&
-        <Divider><Chip label={ categoryData.name } size='medium'/></Divider>}
-        {categoryData.posts.filter(post => !post.is_pinned).map(post => (
+        {categoryData.posts.filter(post => (post.title.includes(searchPost) || searchPost==='') && !post.is_pinned).length > 0 &&
+        <Divider />}
+        {categoryData.posts.filter(post => (post.title.includes(searchPost) || searchPost==='') && !post.is_pinned).map(post => (
                 
                 <NonPinnedPost user={user} post={post} handleModal={handleModal}/>
             ))}
@@ -53,7 +59,7 @@ const Home: FC<HomeProps> = ({ user, handleLogout, handleModal }) => {
     return !user.logged_in
     ? <NoPage statusCode={401} />
     : (<>
-        <PrimarySearchAppBar user={user} categories={categoryTopics} handleLogout={handleLogout} handleModal={handleModal} />
+        <PrimarySearchAppBar user={user} categories={categoryTopics} handleLogout={handleLogout} handleModal={handleModal} handleSearchPost={handleSearchPost} />
         <Container maxWidth='xl'>
             <Header title='Home'/>
             <>{populatePinnedPosts()}</>

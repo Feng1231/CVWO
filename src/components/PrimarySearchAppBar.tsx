@@ -66,7 +66,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, categories, handleLogout, handleModal }) => {
+const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, categories, handleLogout, handleModal, handleSearchPost }) => {
   const userID = 'id' in user ? user.id : -1;
   const username = 'username' in user ? user.username : "";
   const adminLevel = 'admin_level' in user ? user.admin_level : 0
@@ -157,7 +157,7 @@ const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, categories, h
       style={{zIndex:1000}}
     >
       <MenuItem>
-        <Button color="inherit" fullWidth onClick={handleProfileNavigation}>{username}</Button>
+        <Button color="inherit" fullWidth onClick={handleProfileNavigation}></Button>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -195,7 +195,7 @@ const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, categories, h
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ mr: 2 }}
+            sx={{mr: 1, '&:hover': {backgroundColor: 'transparent'}}}
           >
             <MenuListComposition user={user} categories={categories} handleModal={handleModal}/>
           </IconButton>
@@ -205,7 +205,7 @@ const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, categories, h
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            <Link href='/ ' color='white' underline='none'>Discum</Link>
+            <Link href='/ ' color='white' underline='none'><Typography variant="overline">Discum</Typography></Link>
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -214,26 +214,15 @@ const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, categories, h
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={(e) => handleSearchPost(e.target.value)}
             />
           </Search>
-            <AddPost user={user} categories={categories} handleModal={handleModal} />
+          <AddPost user={user} categories={categories} handleModal={handleModal} />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            {adminLevel === 1 && (<>
-              <AddCategory user={user} handleModal={handleModal}/>
-              <DeleteCategory user={user} categories={categories} handleModal={handleModal}/>
-              <RenameCategory user={user} categories={categories} handleModal={handleModal} /></>
+            {adminLevel === 1 && (
+              <Button sx={{'&:hover': {backgroundColor: 'transparent'}}} variant="text" color="inherit" onClick={() => navigate('/admin')}><Typography variant='overline'>Admin</Typography></Button>
             )}
-            <Button color='inherit' onClick={handleProfileNavigation}>{username}</Button>
-            <IconButton
-              size="large"
-              aria-label="show new notifications"
-              color="inherit"
-            >
-              <Badge variant="dot" color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
             <IconButton
               size="large"
               edge="end"
@@ -242,6 +231,7 @@ const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, categories, h
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
+              sx={{'&:hover': {backgroundColor: 'transparent'}}}
             >
               <AccountCircle />
             </IconButton>
@@ -254,6 +244,7 @@ const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, categories, h
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
+              sx={{'&:hover': {backgroundColor: 'transparent'}}}
             >
               <MoreIcon />
             </IconButton>

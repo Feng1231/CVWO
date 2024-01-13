@@ -8,7 +8,7 @@ import { ProfileProps } from '../App.types';
 import { useParams } from 'react-router-dom';
 import NoPage from './NoPage';
 
-const Profile: FC<ProfileProps> = ({ user, handleModal}) => {
+const Profile: FC<ProfileProps> = ({ user, handleModal, handleLogout}) => {
     let { id } = useParams() ;
     const userID = 'id' in user ? user.id : -1;
     
@@ -18,8 +18,8 @@ const Profile: FC<ProfileProps> = ({ user, handleModal}) => {
         <>
             <CssBaseline />
             <Header title='Profile' />
-            <ProfilePageAppBar user={user} />
-            <ProfilePageBody user={user}/>
+            <ProfilePageAppBar user={user} handleLogout={handleLogout} />
+            <ProfilePageBody user={user} handleModal={handleModal} handleLogout={handleLogout} />
         </>            
     )
     

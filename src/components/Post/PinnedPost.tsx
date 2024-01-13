@@ -36,19 +36,23 @@ const PinnedPost: FC<PinnedPostProps> = ({ user, post, handleModal }) => {
         if (confirmDelete) {
             postRemove(post.id)
                 .then(response => {
-                    if(response.success) alert('post.deleted!');
+                    if(response.success) {
+                        alert('post.deleted!');
+                        setTimeout(() => RefreshPage(), 500);
+                    }
                     if('errors' in response && !response.success) handleModal(response.errors);
                 })
-            setTimeout(() => RefreshPage(), 1000);
+            
         }
     }
     
     const handleUnpinPost = () => {
         postHandlePin(post.id)
             .then(response => {
+                if (response.success) setTimeout(()=> RefreshPage(), 500);
                 if ('errors' in response && !response.success) handleModal(response.errors)
             })
-        setTimeout(()=> RefreshPage(), 500);
+        
     }
     return (
         <Card
@@ -84,26 +88,26 @@ const PinnedPost: FC<PinnedPostProps> = ({ user, post, handleModal }) => {
                         }}
                     >
                         <Typography variant="overline"> {`Category: ${post.category}`}</Typography>
-                        <Typography variant="h6" color="inherit">
+                        <Typography variant="h6" color="text.primary">
                             {post.title}
                         </Typography>
                         
-                        <Divider >{`Last updated by ${username} on ${date}`}</Divider>
-                        <Typography variant="body2" color="inherit" paragraph>
+                        <Divider ><Typography variant="overline">{`Last updated by ${username} on ${date}`}</Typography></Divider>
+                        <Typography variant="body2" color="text.secondary" paragraph>
                             {post.body}
                         </Typography>
                     </Box>
                     </Grid>
                 </Grid>
             </CardActionArea>
-            {((post.user_id === id) || admin_level === 1 ) && (
+            
                 <><CardActions>
                     <StarOutlineIcon sx={{ marginRight:"auto"}}/>
     
                     <ButtonGroup variant='outlined' color='inherit' sx={{ marginLeft: "auto" }}>
                     {admin_level === 1 && <Button onClick={handleUnpinPost}>UNPIN</Button>}
                     {post.user_id === id && <EditPost user={user} post={post} handleModal={handleModal}/>}
-                    <Button onClick={handleDelete}>DELETE</Button>
+                    {admin_level === 1 && <Button onClick={handleDelete}>DELETE</Button>}
                     </ButtonGroup>
                 
                 
@@ -116,7 +120,7 @@ const PinnedPost: FC<PinnedPostProps> = ({ user, post, handleModal }) => {
                 scroll= {scroll}
                 />
             </>
-            )}
+
         </Card>
     );
     

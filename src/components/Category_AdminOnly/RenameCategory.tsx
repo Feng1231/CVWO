@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { OutlinedInput, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { OutlinedInput, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import '../../assets/css/App.css';
@@ -16,7 +16,6 @@ import { categoryEdit, categoryNew } from '../Miscellaneous/apiRequests';
 import { RefreshPage } from '../../App';
 
 const RenameCategory: FC<RenameCategoryProps> = ({ user, categories, handleModal }) => {
-
     const admin_level = 'admin_level' in user ? user.admin_level : -1;
     const [categoryID, setCategoryID] = useState<string>();
     
@@ -34,11 +33,16 @@ const RenameCategory: FC<RenameCategoryProps> = ({ user, categories, handleModal
         };
         categoryEdit(category)
             .then(response => {
-                if (response.success) alert('Category name upated!');
+                if (response.success) {
+                    alert('Category name upated!');
+                    setTimeout(() => {RefreshPage();}, 500);
+                }
                 if ('errors' in response && !response.success) handleModal(response.errors);
-            });
-        setTimeout(() => {RefreshPage();}, 1000);
+            }
+        );
+        
     };
+
     const [open, setOpen] = React.useState(false);
     const [count1, setCount1] = React.useState(0);
     const handleClickOpen = () => {
@@ -47,70 +51,75 @@ const RenameCategory: FC<RenameCategoryProps> = ({ user, categories, handleModal
 
     const handleClose = () => {
         setOpen(false);
+        setCount1(0);
     };
     
     return (
         <>
-        <Button color='inherit' onClick={handleClickOpen} >
-            Rename Category
-        </Button>
-        <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Rename Category</DialogTitle>
-            <DialogContent>
-            <Box component="form" onSubmit={handleSubmit}>
-            <InputLabel id="select-category-label">Category</InputLabel>
-                <Select
-                    sx={{mt:1, mb:3}}
-                    fullWidth
-                    labelId="select-category-label"
-                    id="selectCategory"
-                    value={categoryID}
-                    label="Category"
-                    onChange={handleChange}
-                    required
-                    input={<OutlinedInput id='select-category-label' label=""  />}
-                    name='category'
-                    autoComplete=''
-                >
-                {categories.map(category => (
-                    <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
-                ))}
-                </Select>
-                <div className='left'>
-                <InputLabel id="new-category-name-label">New Category Name</InputLabel>
-                </div>
-                <div className='right'>{count1}/20</div>
-                <TextField
-                    sx={{mt:1}}
-                    inputProps={{maxLength: 20}}
-                    required
-                    fullWidth
-                    id="name"
-                    label="Input category name"
-                    name="name"
-                    autoFocus
-                    onChange={e => setCount1(e.target.value.length)}
-                />
-                
-                <div className="right">
-                <Button 
-                    onClick={handleClose}
-                    variant="text"
-                    sx={{ mt: 3, mb: 2 }}
-                >
-                    Cancel
-                </Button>
-                <Button
-                    type="submit"
-                    variant="text"
-                    sx={{ mt: 3, mb: 2 }}
-                >
-                Rename
-                </Button>
-                </div>
-            </Box>
-            </DialogContent>
-        </Dialog>
+            <Button color='inherit' onClick={handleClickOpen} fullWidth sx={{padding:8}}>
+            <Typography variant="overline">Rename Category</Typography>
+            </Button>
+            <Dialog open={open} onClose={handleClose}>
+            <DialogTitle><Typography variant='overline' fontSize={16}>Rename Category</Typography></DialogTitle>
+                <DialogContent>
+                    <Box component="form" onSubmit={handleSubmit}>
+                    <InputLabel id="select-category-label">
+                        <Typography variant='overline' fontSize={10} color="black"><b>Category</b></Typography>
+                    </InputLabel>
+                        <Select
+                            sx={{mt:1, mb:3}}
+                            fullWidth
+                            labelId="select-category-label"
+                            id="selectCategory"
+                            value={categoryID}
+                            label="Category"
+                            onChange={handleChange}
+                            required
+                            input={<OutlinedInput id='select-category-label' label=""  />}
+                            name='category'
+                            autoComplete=''
+                        >
+                        {categories.map(category => (
+                            <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+                        ))}
+                        </Select>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <InputLabel id="input-name-label">
+                                <Typography variant='overline' fontSize={10} color="black"><b>Category Name</b></Typography>
+                            </InputLabel>
+                            <Typography variant='overline' fontSize={10} color="black"><b>{count1}/20</b></Typography>
+                        </div>
+                            <TextField
+                                sx={{mt:1}}
+                                inputProps={{maxLength: 20}}
+                                required
+                                fullWidth
+                                id="name"
+                                label="Input category name"
+                                name="name"
+                                autoFocus
+                                onChange={e => setCount1(e.target.value.length)}
+                        />
+                        
+                        <div className="right">
+                            <Button 
+                                onClick={handleClose}
+                                variant="text"
+                                sx={{ mt: 3, mb: 2, '&:hover': {backgroundColor: 'transparent'} }}
+                            >
+                                <Typography variant='overline'>cancel</Typography>
+                            </Button>
+                            <Button
+                                type="submit"
+                                variant="text"
+                                sx={{ mt: 3, mb: 2, '&:hover': {backgroundColor: 'transparent'} }}
+                            >
+                                <Typography variant='overline'>Rename</Typography>
+                            </Button>
+                        </div>
+                    </Box>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
