@@ -82,7 +82,7 @@ const CommentDisplay: FC<CommentDisplayProps> = ({ key, user, comments, comment,
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <AddComment user={user} postID={comment.post_id} handleModal={handleModal} commentID={key} />
+                    <AddComment user={user} postID={comment.post_id} handleModal={handleModal} commentID={comment.id} />
                     {comment.user_id === userID && <EditComment user={user} postID={comment.post_id} comment={comment} handleModal={handleModal} />}
                     {(comment.user_id === userID || admin_level === 1) &&
                         <Button 
