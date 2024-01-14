@@ -39,6 +39,9 @@ Front-end system built with React.js for a Forum. Users will be able to create n
 - Axios
 - NPM Webpack
 
+### Set up this project
+Start by downloading the zip file of this project into your computer
+
 ### Install Depencies
 
 ```
