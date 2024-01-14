@@ -14,6 +14,7 @@ Front-end system built with React.js for a Forum. Users will be able to create n
 - Edit posts
 - Remove posts
 - Pin posts (admin only)
+- Search for posts
 
 ### Comment
 - Create comment
@@ -24,6 +25,8 @@ Front-end system built with React.js for a Forum. Users will be able to create n
 ### Authentication System
 - Create User Accounts
 - Able to log into a specified User Account with username and password
+- Edit User Password
+- Delete User Account
 
 ## [LIVE DEMO](https://discum-forum.netlify.app/)
 
@@ -43,6 +46,8 @@ $ npm install
 ```
 
 ### Run Application
+
+* ensure URL in /src/components/Miscellaneous/apiRequests.tsx is correctly configured to be your backend database base URL.
 
 ```
 `npm start`
