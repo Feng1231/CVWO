@@ -4,16 +4,15 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import { IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { InputLabel, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import '../../assets/css/App.css';
-import { checkValidPostCreation } from '../Miscellaneous/loginFunctions';
-import { EditPostProps, PostProps, UserProps } from '../../App.types';
+import { EditPostProps, PostProps } from '../../App.types';
 import { FC, useState } from 'react';
 import { fetchPost, postEdit } from '../Miscellaneous/apiRequests';
 import { RefreshPage } from '../../App';
+
+// handles editing of existing post
 const EditPost: FC<EditPostProps>= ({ user, post, handleModal }) => {
     
     const [fullPost, setFullPost] = useState<PostProps|null>(null);

@@ -17,18 +17,17 @@ import { SignUpProps } from '../App.types';
 import { userSignUp } from '../components/Miscellaneous/apiRequests';
 import { useNavigate } from 'react-router-dom';
 
-
+// sign up page display
 const SignUp: FC<SignUpProps> = ({handleModal}) => {
   const navigate = useNavigate();
 
   var tempPassword: string = "";
   var tempConfirmPassword: string = "";
 
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const [countPassword, setCountPassword] = React.useState(0);
-  const [countConfirmPassword, setCountConfirmPassword] = React.useState(0);
-  const [message, setMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [countPassword, setCountPassword] = useState(0);
+  const [countConfirmPassword, setCountConfirmPassword] = useState(0);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
@@ -56,7 +55,7 @@ const SignUp: FC<SignUpProps> = ({handleModal}) => {
     userSignUp(user)
       .then(response => {
           if ('message' in response && response.success) {
-            setMessage(response.message);
+            alert(response.message);
             setTimeout(() => navigate('/SignIn'), 2000);
           }
           if ('errors' in response && !response.success) handleModal(response.errors);
@@ -79,7 +78,7 @@ const SignUp: FC<SignUpProps> = ({handleModal}) => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          <Typography variant="overline" fontSize={20}>Sign Up</Typography>
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={1}>
@@ -169,16 +168,15 @@ const SignUp: FC<SignUpProps> = ({handleModal}) => {
             fullWidth
             variant="contained"
           >
-            Sign Up
+            <Typography variant="overline">Sign Up</Typography>
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="/SignIn" variant="body2">
-                Already have an account? Sign in
+              <Typography variant="overline">Already have an account? Sign in</Typography>
               </Link>
             </Grid>
           </Grid>
-          <h4 className="text-center p-1">{message}</h4>
         </Box>
       </Box>
       

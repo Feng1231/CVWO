@@ -4,11 +4,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Button, Link } from '@mui/material';
 import { FC } from 'react';
-import { ProfilePageAppBarProps } from '../App.types';
-import NoPage from '../pages/NoPage';
-import { useParams } from 'react-router-dom';
+import { ProfilePageAppBarProps } from '../../App.types';
+import NoPage from '../../pages/NoPage';
 import { useNavigate } from 'react-router-dom';
 
+// display of profile page/ admin page app bar
 const ProfilePageAppBar: FC<ProfilePageAppBarProps> = ({ user, handleLogout }) => {
   const userID = 'id' in user ? user.id : -1;
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const ProfilePageAppBar: FC<ProfilePageAppBarProps> = ({ user, handleLogout }) =
   }
   return userID === -1 || !user.logged_in
   ? <NoPage statusCode={401}/>
-  : (
+  :(
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>

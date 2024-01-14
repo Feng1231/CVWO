@@ -1,10 +1,8 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -16,15 +14,14 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
 import { checkCookies, userSignIn } from '../components/Miscellaneous/apiRequests';
-import { SignInProps, UserProps, UserSignInProps } from '../App.types';
+import { SignInProps, UserSignInProps } from '../App.types';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-const SignIn: FC<SignInProps> = ({ handleModal, handleLogin }) => {
 
-  
+// sign in page display
+const SignIn: FC<SignInProps> = ({ handleModal, handleLogin }) => {
   const navigate = useNavigate();
   const token = Cookies.get('token');
-  // const checked = useRef(false);
   const [checked, setChecked] = useState(false);
   setTimeout(()=>{if (token && !checked) {
     checkCookies(token)
@@ -36,8 +33,6 @@ const SignIn: FC<SignInProps> = ({ handleModal, handleLogin }) => {
       });
     setChecked(true);
   }}, 500);
-    
-
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -78,7 +73,7 @@ const SignIn: FC<SignInProps> = ({ handleModal, handleLogin }) => {
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography variant="overline" fontSize={20}>
           Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -122,13 +117,13 @@ const SignIn: FC<SignInProps> = ({ handleModal, handleLogin }) => {
             fullWidth
             variant="contained"
           >
-            Sign In
+            <Typography variant="overline">Sign In</Typography>
           </Button>
             <Grid container>
             
             <Grid item>
               <Link href="./SignUp" variant="body2">
-                New to Discum? Sign Up
+                <Typography variant="overline">New to discum? Sign Up</Typography>
               </Link>
             </Grid>
           </Grid>
@@ -140,6 +135,4 @@ const SignIn: FC<SignInProps> = ({ handleModal, handleLogin }) => {
 
 export default SignIn;
 
-function useEffect(arg0: () => void, arg1: never[]) {
-  throw new Error('Function not implemented.');
-}
+

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect }  from 'react';
+import { useState, useCallback, useEffect }  from 'react';
 import './assets/css/App.css';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -8,17 +8,15 @@ import Profile from './pages/Profile';
 import MyPosts from './pages/MyPosts';
 import Modal from './components/Miscellaneous/Modal';
 import CategoryPage from './pages/CategoryPage';
-import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import { User, Post, Category1, UserProps, PostProps } from './App.types';
+import { UserProps } from './App.types';
 import { userLogout, userSignedIn } from './components/Miscellaneous/apiRequests';
 import Cookies from 'js-cookie';
-import AddPost from './components/Post/AddPost';
-import FullPost from './components/Post/FullPost';
-import AdminPanel from './components/Category_AdminOnly/AdminPanel';
+import AdminPanel from './pages/AdminPanel';
 
 export function RefreshPage() {
     window.location.reload();
@@ -29,7 +27,6 @@ const App = () => {
     const [errors, setErrors] = useState<string|string[]>([]);
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [selectedPost, setSelectedPost] = useState<PostProps | null>(null);
 
     const handleModal = useCallback((errors:string|string[] = []) => {
         setErrors(errors);
@@ -63,7 +60,7 @@ const App = () => {
             setLoading(false);
         });
     }, [handleModal]);
-    
+
     return loading 
     ? <> </>
     : (

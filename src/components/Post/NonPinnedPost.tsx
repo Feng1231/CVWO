@@ -2,7 +2,7 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { NonPinnedPostProps, PostProps, User } from '../../App.types';
+import { NonPinnedPostProps } from '../../App.types';
 import Card from '@mui/material/Card';
 import { Button, ButtonGroup, CardActionArea, CardActions, DialogProps, Divider} from '@mui/material';
 import FullPost from './FullPost';
@@ -11,8 +11,8 @@ import  Moment  from 'moment';
 import { RefreshPage } from '../../App';
 import { postHandlePin, postRemove } from '../Miscellaneous/apiRequests';
 import EditPost from './EditPost';
-import { responsiveProperty } from '@mui/material/styles/cssUtils';
 
+// handles display of non pinned post
 const NonPinnedPost: FC<NonPinnedPostProps> = ({ user, post, handleModal }) =>{
     const username = 'username' in user ? user.username : ""
     const id = 'id' in user ? user.id : -1;
@@ -92,7 +92,7 @@ const NonPinnedPost: FC<NonPinnedPostProps> = ({ user, post, handleModal }) =>{
                         <Typography variant="h6" color="text.primary">{post.title}</Typography>
                         <Divider><Typography variant="overline">{`Last updated by ${username} on ${date}`}</Typography></Divider>
                         <Typography variant="body2" color="text.secondary" paragraph>
-                            {post.body}
+                            {post.body.length === 33 ? post.body + '...' : post.body}
                         </Typography>
                     </Box>
                     </Grid>

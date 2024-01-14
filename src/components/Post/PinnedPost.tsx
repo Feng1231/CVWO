@@ -2,18 +2,18 @@ import React , { FC }from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { CategoryProps, PinnedPostProps, PostProps, User } from '../../App.types';
+import { PinnedPostProps } from '../../App.types';
 import Card from '@mui/material/Card';
-import { CardActionArea, Divider, DialogProps, Button, CardActions, colors, ButtonGroup, Chip} from '@mui/material';
+import { CardActionArea, Divider, DialogProps, Button, CardActions, ButtonGroup} from '@mui/material';
 import FullPost from './FullPost';
-import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
-import { Link } from 'react-router-dom';
 import '../../assets/css/App.css';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import { postHandlePin, postRemove } from '../Miscellaneous/apiRequests';
 import { RefreshPage } from '../../App';
 import EditPost from './EditPost';
 import Moment from 'moment';
+
+// handles display of pinned post, pinned post will be displayed on every forum page
 const PinnedPost: FC<PinnedPostProps> = ({ user, post, handleModal }) => {
     const username = 'username' in user ? user.username : ""
     const id = 'id' in user ? user.id : -1;

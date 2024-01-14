@@ -1,16 +1,16 @@
-import React, { FC, useEffect, useState, useCallback } from 'react';
+import { FC, useEffect, useState, useCallback } from 'react';
 import Header from '../components/Miscellaneous/Header'
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import PrimarySearchAppBar from '../components/PrimarySearchAppBar';
+import PrimarySearchAppBar from '../components/Forum/PrimarySearchAppBar';
 import PinnedPost from '../components/Post/PinnedPost';
 import NonPinnedPost from '../components/Post/NonPinnedPost';
-import { Button, Divider } from '@mui/material';
-import Chip from '@mui/material/Chip';
-import { User, Post, MyPostsProps, CategoryProps, PostProps } from '../App.types';
+import { Divider } from '@mui/material';
+import { MyPostsProps, CategoryProps, PostProps } from '../App.types';
 import NoPage from './NoPage';
 import { fetchAllCategoryPosts } from '../components/Miscellaneous/apiRequests';
 
+// display the posts created by user
 const MyPosts: FC<MyPostsProps> = ({ user, handleModal, handleLogout, }) => {
     const [searchPost, setSearchPost] = useState('');
     const userID = 'id' in user ? user.id : -1;

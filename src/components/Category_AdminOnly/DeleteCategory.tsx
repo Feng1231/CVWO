@@ -1,13 +1,12 @@
 import * as React from "react";
-import { OutlinedInput, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Button, Box, Dialog, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
+import { OutlinedInput, MenuItem, Select, SelectChangeEvent, Button, Box, Dialog, DialogContent, DialogTitle, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { DeleteCategoryProps } from "../../App.types";
-
 import { RefreshPage } from "../../App";
-import { categoryNew, categoryRemove } from "../Miscellaneous/apiRequests";
+import { categoryRemove } from "../Miscellaneous/apiRequests";
 
+// handle Remove category by admin
 const DeleteCategory: FC<DeleteCategoryProps> = ({ user, categories, handleModal }) => {
-  const admin_level = 'admin_level' in user ? user.admin_level : -1;
   const [categoryID, setCategoryID] = useState<string>();
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -18,7 +17,6 @@ const DeleteCategory: FC<DeleteCategoryProps> = ({ user, categories, handleModal
   const [open, setOpen] = useState(false);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
     const confirmDelete = window.confirm(`Are you sure you want to delete Category?`)
     console.log(typeof categoryID )
     if (confirmDelete) {

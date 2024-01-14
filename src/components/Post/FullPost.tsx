@@ -5,6 +5,8 @@ import { fetchPost } from "../Miscellaneous/apiRequests";
 import CommentSection from "../Comment/CommentSection";
 import AddComment from "../Comment/AddComment";
 import  Moment  from 'moment';
+
+// handles display of expanded post
 const FullPost: FC<FullPostProps> = ({user, post, expandPostOpen, handleClosePost, handleModal, scroll}) => {
     let latest_date = post.updated_at;
     const date = Moment(latest_date).format('MMMM DD YYYY,  LT');

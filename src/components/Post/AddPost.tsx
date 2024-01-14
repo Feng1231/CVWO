@@ -9,11 +9,12 @@ import { IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Typography
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import '../../assets/css/App.css';
-import { checkValidPostCreation } from '../Miscellaneous/loginFunctions';
-import { AddPostProps, UserProps } from '../../App.types';
+import { AddPostProps } from '../../App.types';
 import { FC, useState } from 'react';
 import { postNew } from '../Miscellaneous/apiRequests';
 import { RefreshPage } from '../../App';
+
+//handles creation of new post
 const AddPost: FC<AddPostProps>= ({ user, categories, handleModal }) => {
 
   const user_id = 'id' in user ? user.id : -1;

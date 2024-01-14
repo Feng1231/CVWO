@@ -4,20 +4,17 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { IconButton, InputLabel, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { InputLabel, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import '../../assets/css/App.css';
-import { checkValidPostCreation } from '../Miscellaneous/loginFunctions';
-import { useParams } from 'react-router-dom';
-import { AddCommentProps, UserProps } from '../../App.types';
+import { AddCommentProps } from '../../App.types';
 import { FC } from 'react';
-import { categoryNew, commentNew } from '../Miscellaneous/apiRequests';
+import { commentNew } from '../Miscellaneous/apiRequests';
 import { RefreshPage } from '../../App';
 
+// Handle Adding comment
 const AddComment: FC<AddCommentProps> = ({ user, postID, handleModal, commentID }) => {
     const text = commentID ? "Reply" : "Comment";
-    const admin_level = 'admin_level' in user ? user.admin_level : -1;
     const userID = 'id' in user? user.id : -1;
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

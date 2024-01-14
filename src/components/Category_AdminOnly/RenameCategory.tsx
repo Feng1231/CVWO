@@ -4,19 +4,16 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { OutlinedInput, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
+import { OutlinedInput, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
 import Box from '@mui/material/Box';
 import '../../assets/css/App.css';
-import { checkValidPostCreation } from '../Miscellaneous/loginFunctions';
-import { useParams } from 'react-router-dom';
-import { RenameCategoryProps, UserProps } from '../../App.types';
+import { RenameCategoryProps } from '../../App.types';
 import { FC, useState } from 'react';
-import { categoryEdit, categoryNew } from '../Miscellaneous/apiRequests';
+import { categoryEdit } from '../Miscellaneous/apiRequests';
 import { RefreshPage } from '../../App';
 
+// handle Renaming category by admin
 const RenameCategory: FC<RenameCategoryProps> = ({ user, categories, handleModal }) => {
-    const admin_level = 'admin_level' in user ? user.admin_level : -1;
     const [categoryID, setCategoryID] = useState<string>();
     
     const handleChange = (event: SelectChangeEvent) => {

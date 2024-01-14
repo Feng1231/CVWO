@@ -9,13 +9,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
-import { MenuListCompositionProps } from '../App.types';
+import { MenuListCompositionProps } from '../../App.types';
 import { FC } from 'react';
-import AddCategory from './Category_AdminOnly/AddCategory';
 import Typography from '@mui/material/Typography';
 
-
-const MenuListComposition: FC<MenuListCompositionProps> = ({ user, categories, handleModal }) => {
+// Shows menu which allows navigation to home/category pages/my posts
+const MenuListComposition: FC<MenuListCompositionProps> = ({ user, categories }) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
@@ -23,8 +22,6 @@ const MenuListComposition: FC<MenuListCompositionProps> = ({ user, categories, h
     setOpen((prevOpen) => !prevOpen);
   };
 
-
-  const adminLevel = 'admin_level' in user ? user.admin_level : 0;
   const handleClose = (event: Event | React.SyntheticEvent) => {
     if (
       anchorRef.current &&

@@ -2,7 +2,7 @@ import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
-import '../assets/css/App.css';
+import '../../assets/css/App.css';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -17,13 +17,11 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
-import moment from 'moment';
 import Grid from '@mui/material/Grid';
-import { checkValidPasswordEdit } from './Miscellaneous/loginFunctions';
-import'../App.types';
-import { ProfilePageBodyProps, UserProps } from '../App.types';
+import'../../App.types';
+import { ProfilePageBodyProps } from '../../App.types';
 import { FC } from 'react';
-import { changePassword, userDelete } from './Miscellaneous/apiRequests';
+import { changePassword, userDelete } from '../Miscellaneous/apiRequests';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -37,6 +35,7 @@ const Item = styled(Paper)(({ theme }) => ({
   var tempNewPassword: string = "";
   var tempConfirmPassword: string = "";
   
+// display of body of profile page
 const ProfilePageBody: FC<ProfilePageBodyProps> = ({ user, handleModal, handleLogout }) => {
   const navigate = useNavigate();
   const username = 'username' in user ? user.username : "";

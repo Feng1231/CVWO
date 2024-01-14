@@ -1,20 +1,18 @@
-import React, { useCallback, useEffect } from 'react';
+import React, {  } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import { IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { InputLabel, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import '../../assets/css/App.css';
-import { checkValidPostCreation } from '../Miscellaneous/loginFunctions';
 import { EditCommentProps } from '../../App.types';
-import { FC, useState } from 'react';
-import { commentEdit, fetchPost, postEdit } from '../Miscellaneous/apiRequests';
+import { FC } from 'react';
+import { commentEdit } from '../Miscellaneous/apiRequests';
 import { RefreshPage } from '../../App';
-import { text } from 'stream/consumers';
+
+//handle Edit Comment
 const EditComment: FC<EditCommentProps>= ({ user, postID, comment, handleModal }) => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();

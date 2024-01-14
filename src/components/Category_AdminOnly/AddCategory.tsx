@@ -4,16 +4,15 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { IconButton, InputLabel, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { InputLabel, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import '../../assets/css/App.css';
-import { checkValidPostCreation } from '../Miscellaneous/loginFunctions';
-import { useParams } from 'react-router-dom';
-import { AddCategoryProps, UserProps } from '../../App.types';
+import { AddCategoryProps } from '../../App.types';
 import { FC } from 'react';
 import { categoryNew } from '../Miscellaneous/apiRequests';
 import { RefreshPage } from '../../App';
+
+// handle Adding new category by admin
 const AddCategory: FC<AddCategoryProps> = ({ user, handleModal }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const data = new FormData(event.currentTarget);
@@ -31,6 +30,7 @@ const AddCategory: FC<AddCategoryProps> = ({ user, handleModal }) => {
 
   const [open, setOpen] = React.useState(false);
   const [count1, setCount1] = React.useState(0);
+
   const handleClickOpen = () => {
     setOpen(true);
   };

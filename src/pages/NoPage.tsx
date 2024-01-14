@@ -7,6 +7,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import { NoPageProps } from '../App.types';
 import { FC } from 'react';
 
+// handles non authorization/404 error
 const NoPage: FC<NoPageProps> = ({ statusCode }) => {
     const errorMessage = 
         statusCode === 401

@@ -1,11 +1,7 @@
-import { BooleanLiteral } from "typescript";
+//Types declarations
 
 export interface AppProps{
     title?: string;
-}
-
-export interface ButtonPage{
-    page: string;
 }
 
 export interface ModalProps {
@@ -28,14 +24,6 @@ export interface SignUpProps {
     handleModal: (errors?: string | string[]) => void;
 }
 
-
-export interface UserSignInProps {
-    username: string,
-    password: string
-}
-export interface UserSignUpProps extends UserSignInProps {
-    password_confirmation: string;
-}
 export interface UserProps {
     id: number;
     username: string;
@@ -43,6 +31,38 @@ export interface UserProps {
     admin_level: number;
     logged_in: boolean;
 }
+
+export interface PostProps {
+    id: number;   
+    title: string;
+    body: string;
+    category_id: number;
+    is_pinned: boolean;
+    user_id: number;
+    created_at: Date;
+    updated_at: Date;
+    author: string;
+    category: string;
+}
+
+export interface CommentProps {
+    id: number;
+    body: string;
+    user_id: number;
+    comment_id: number;
+    post_id: number;
+    created_at: Date;
+    updated_at: Date;
+    author: string;
+}
+export interface UserSignInProps {
+    username: string,
+    password: string
+}
+export interface UserSignUpProps extends UserSignInProps {
+    password_confirmation: string;
+}
+
 
 export interface HomeProps {
     user: UserProps | {logged_in: boolean};
@@ -203,18 +223,7 @@ export interface CategoryEditProps {
 }
 
 
-export interface PostProps {
-      id: number;   
-      title: string;
-      body: string;
-      category_id: number;
-      is_pinned: boolean;
-      user_id: number;
-      created_at: Date;
-      updated_at: Date;
-      author: string;
-      category: string;
-}
+
 
 export interface PostNewProps {
     title: string;
@@ -252,67 +261,11 @@ export interface changePasswordProps {
     password_confirmation: string;
 }
 
-export interface CommentProps {
-    id: number;
-    body: string;
-    user_id: number;
-    comment_id: number;
-    post_id: number;
-    created_at: Date;
-    updated_at: Date;
-    author: string;
-}
+
+
 export interface ProfileProps {
     user: UserProps | { logged_in: boolean };
     handleModal: (errors?: string | string[]) => void;
     handleLogout: () => void;
 }
-export class User {
-    id: number;
-    username: string;
-    token: string;
-    admin_level: number;
-    constructor(id: number, username: string, token: string, admin_level: number){
-        this.id = id;
-        this.username = username;
-        this.token = token;
-        this.admin_level = admin_level;  
-        }
-}
 
-export interface CategoryProps {
-    user: UserProps | { logged_in: boolean };
-    handleModal: (errors?: string | string[]) => void;
-    handleLogout: () => void;
-}
-export class Category1 {
-    category_id: number;
-    name: string;
-    created_at: Date;
-
-    constructor(category_id: number, name: string, created_at: Date) {
-        this.category_id = category_id;
-        this.name = name;
-        this.created_at = created_at;
-    }
-}
-export class Post {
-    post_id: number;   
-    body: string;
-    title: string;
-    category_id: number;
-    is_pinned: boolean;
-    author_id: number;
-    created_at: Date;
-
-    constructor(post_id: number, body: string, title: string, 
-        category_id: number, is_pinned: boolean, author_id:number, created_at: Date) {
-      this.post_id = post_id;
-      this.body = body;
-      this.title = title;
-      this.category_id = category_id;
-      this.is_pinned = is_pinned;
-      this.author_id = author_id;
-      this.created_at= created_at;
-    }
-}

@@ -1,18 +1,15 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import Header from '../components/Miscellaneous/Header'
-import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import PrimarySearchAppBar from '../components/PrimarySearchAppBar';
+import PrimarySearchAppBar from '../components/Forum/PrimarySearchAppBar';
 import PinnedPost from '../components/Post/PinnedPost';
 import NonPinnedPost from '../components/Post/NonPinnedPost';
 import { Divider } from '@mui/material';
-import Chip from '@mui/material/Chip';
-import { User, Post, HomeProps, CategoryProps } from '../App.types';
+import { HomeProps, CategoryProps } from '../App.types';
 import NoPage from './NoPage';
-import { fetchAllCategories, fetchAllCategoryPosts } from '../components/Miscellaneous/apiRequests';
-import { setSelectionRange } from '@testing-library/user-event/dist/utils';
+import { fetchAllCategoryPosts } from '../components/Miscellaneous/apiRequests';
 
-
+// display for home page after log in
 const Home: FC<HomeProps> = ({ user, handleLogout, handleModal }) => {
     const [searchPost, setSearchPost] = useState('');
     const [pinnedPosts, setPinnedPosts] = useState([]);

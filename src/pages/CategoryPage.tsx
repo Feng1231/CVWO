@@ -1,14 +1,15 @@
-import React, { FC, useEffect, useState, useCallback } from "react";
+import { FC, useEffect, useState, useCallback } from "react";
 import { CategoryPageProps, CategoryProps } from "../App.types";
 import { useParams } from "react-router-dom";
-import { Divider, Chip, Container } from "@mui/material";
+import { Divider, Container } from "@mui/material";
 import Header from "../components/Miscellaneous/Header";
 import NonPinnedPost from "../components/Post/NonPinnedPost";
 import PinnedPost from "../components/Post/PinnedPost";
-import PrimarySearchAppBar from "../components/PrimarySearchAppBar";
-import { fetchAllCategories, fetchAllCategoryPosts } from "../components/Miscellaneous/apiRequests";
+import PrimarySearchAppBar from "../components/Forum/PrimarySearchAppBar";
+import { fetchAllCategoryPosts } from "../components/Miscellaneous/apiRequests";
 import NoPage from "./NoPage";
 
+// display for each category created
 const CategoryPage: FC<CategoryPageProps> = ( { user, handleLogout, handleModal } ) => {
     const [searchPost, setSearchPost] = useState('');
     let { category } = useParams();
@@ -52,6 +53,7 @@ const CategoryPage: FC<CategoryPageProps> = ( { user, handleLogout, handleModal 
 
     return loading ? <></> :!user.logged_in 
         ? (<NoPage statusCode={401} />)
+        // if category in url does not exist, display no page
         : !categoryTopics.find(categoryData => categoryData.name === category)
             ? (<NoPage statusCode={404} />)
             : (<>

@@ -1,23 +1,18 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
-import Header from '../Miscellaneous/Header';
+import { FC, useCallback, useEffect, useState } from 'react';
+import Header from '../components/Miscellaneous/Header';
 import CssBaseline from '@mui/material/CssBaseline';
-import ProfilePageAppBar from '../ProfilePageAppBar';
-import ProfilePageBody from '../ProfilePageBody';
-import '../../assets/css/App.css';
-import { useParams } from 'react-router-dom';
-import NoPage from '../../pages/NoPage';
-import { AdminPanelProps, CategoryOnlyProps } from '../../App.types';
+import ProfilePageAppBar from '../components/Profile/ProfilePageAppBar';
+import '../assets/css/App.css';
+import NoPage from './NoPage';
+import { AdminPanelProps, CategoryOnlyProps } from '../App.types';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { ButtonGroup, CardActionArea, CardActions, Container } from '@mui/material';
-import { fetchAllCategories, fetchAllCategoryPosts } from '../Miscellaneous/apiRequests';
-import AddCategory from './AddCategory';
-import RenameCategory from './RenameCategory';
-import DeleteCategory from './DeleteCategory';
+import { CardActions, Container } from '@mui/material';
+import { fetchAllCategoryPosts } from '../components/Miscellaneous/apiRequests';
+import AddCategory from '../components/Category_AdminOnly/AddCategory';
+import RenameCategory from '../components/Category_AdminOnly/RenameCategory';
+import DeleteCategory from '../components/Category_AdminOnly/DeleteCategory';
 
-
+// admin page display
 const AdminPanel: FC<AdminPanelProps> = ({ user, handleModal, handleLogout }) => {
     const admin_level = 'admin_level' in user ? user.admin_level : -1;
     const [categories, setCategories] = useState<CategoryOnlyProps[]>([]);
