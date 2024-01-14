@@ -102,8 +102,12 @@ const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, categories, h
       onClose={handleMenuClose}
       style={{ zIndex: 10000 }} 
     >
-      <MenuItem onClick={handleProfileNavigation}>Profile</MenuItem>
-      <MenuItem onClick={handleUserLogout}>Logout</MenuItem>
+      <MenuItem onClick={handleProfileNavigation}>
+        <Typography variant='overline'>Profile</Typography>
+      </MenuItem>
+      <MenuItem onClick={handleUserLogout}>
+        <Typography variant='overline'>Logout</Typography>
+      </MenuItem>
     </Menu>
   );
 

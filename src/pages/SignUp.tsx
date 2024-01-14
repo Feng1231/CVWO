@@ -17,11 +17,15 @@ import { SignUpProps } from '../App.types';
 import { userSignUp } from '../components/Miscellaneous/apiRequests';
 import { useNavigate } from 'react-router-dom';
 
+// sign up page display
 var tempPassword: string = "";
 var tempConfirmPassword: string = "";
-// sign up page display
+
 const SignUp: FC<SignUpProps> = ({handleModal}) => {
   const navigate = useNavigate();
+
+
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [countPassword, setCountPassword] = useState(0);
