@@ -40,7 +40,7 @@ const CommentDisplay: FC<CommentDisplayProps> = ({ key, user, comments, comment,
     const [elevation, setElevation] = React.useState(1);
     let latest_date = comment.updated_at;
     const date = Moment(latest_date).format('MMMM DD YYYY,  LT');
-    const relatedComments = comments.filter(secondaryComment => secondaryComment.comment_id === key);
+    const relatedComments = comments.filter(secondaryComment => secondaryComment.comment_id === comment.id);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);

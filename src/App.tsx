@@ -58,6 +58,7 @@ const App = () => {
             if ('user' in response && response.success) setUser(response.user);
             if ('errors' in response && !response.success) handleModal(response.errors);
             setLoading(false);
+            
         });
     }, [handleModal]);
 
