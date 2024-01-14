@@ -36,7 +36,7 @@ const userSignIn = async (user: UserSignInProps) => {
 // User Logout
 const userLogout = async () => {
     let login;
-    if (sessionStorage.getItem('user')) login = await JSON.parse(sessionStorage.getItem('user')!);
+    if (sessionStorage.getItem('user')) login = JSON.parse(sessionStorage.getItem('user')!);
     sessionStorage.clear();
     return axios.patch(`${URL}logout`, null, { headers: { Authorization: login.token } })
       .then(() => ({ success: true }))

@@ -34,6 +34,7 @@ const EditPost: FC<EditPostProps>= ({ user, post, handleModal }) => {
                 if ('errors' in response && !response.success) handleModal(response.errors);
             });
             
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         },[post.id, handleSetFullPost, handleModal, setOpen]
     );
     sessionStorage.setItem('fullPost', JSON.stringify(fullPost));

@@ -27,6 +27,7 @@ const FullPost: FC<FullPostProps> = ({user, post, expandPostOpen, handleClosePos
                 if ('errors' in response && !response.success) handleModal(response.errors);
             });
             
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         },[handleModal, handleSetComments]
     );
 

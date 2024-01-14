@@ -1,10 +1,11 @@
 import React, { FC, useState } from 'react';
 import { ModalProps } from '../../App.types';
-import { Button, Container, Dialog, DialogContent, DialogTitle, Divider } from '@mui/material';
+import { Button, Container, Dialog, DialogContent, DialogTitle } from '@mui/material';
 
 const Modal: FC<ModalProps> = ({ errors, handleModal }) => {
 
   // Returns JSX relative to whether the errors are given in array or string format
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [open, setOpen] = useState(errors.length > 0);
 
   const showErrors = () => {
