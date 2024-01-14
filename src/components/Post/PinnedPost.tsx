@@ -92,7 +92,7 @@ const PinnedPost: FC<PinnedPostProps> = ({ user, post, handleModal }) => {
                             {post.title}
                         </Typography>
                         
-                        <Divider ><Typography variant="overline">{`Last updated by ${username} on ${date}`}</Typography></Divider>
+                        <Divider ><Typography variant="overline">{`Last updated by ${post.author} on ${date}`}</Typography></Divider>
                         <Typography variant="body2" color="text.secondary" paragraph>
                             {post.body}
                         </Typography>

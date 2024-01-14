@@ -90,7 +90,7 @@ const NonPinnedPost: FC<NonPinnedPostProps> = ({ user, post, handleModal }) =>{
                     >
                         <Typography variant="overline">{`Category: ${post.category}`}</Typography>
                         <Typography variant="h6" color="text.primary">{post.title}</Typography>
-                        <Divider><Typography variant="overline">{`Last updated by ${username} on ${date}`}</Typography></Divider>
+                        <Divider><Typography variant="overline">{`Last updated by ${post.author} on ${date}`}</Typography></Divider>
                         <Typography variant="body2" color="text.secondary" paragraph>
                             {post.body.length === 33 ? post.body + '...' : post.body}
                         </Typography>

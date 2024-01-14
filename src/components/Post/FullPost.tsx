@@ -44,7 +44,7 @@ const FullPost: FC<FullPostProps> = ({user, post, expandPostOpen, handleClosePos
                     
                 <DialogContent sx={{minWidth:500, minHeight:400}} dividers={scroll === 'paper'}>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Typography variant="overline">{username}</Typography>
+                        <Typography variant="overline">{post.author}</Typography>
                         <Typography variant="overline">{`Last updated ${date}`}</Typography>
                     </div>
                     
