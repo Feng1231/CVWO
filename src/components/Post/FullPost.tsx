@@ -22,7 +22,8 @@ const FullPost: FC<FullPostProps> = ({user, post, expandPostOpen, handleClosePos
             .then(response => {
                 if ('post' in response && response.success) {
                     setFullPost(response.post);
-                    handleSetComments(response.comments);                }
+                    handleSetComments(response.comments);                
+                }
                 if ('errors' in response && !response.success) handleModal(response.errors);
             });
             

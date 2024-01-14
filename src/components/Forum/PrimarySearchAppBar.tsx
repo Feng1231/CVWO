@@ -134,7 +134,7 @@ const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, categories, h
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder="Search Post Title…"
               inputProps={{ 'aria-label': 'search' }}
               onChange={(e) => handleSearchPost(e.target.value)}
             />

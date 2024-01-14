@@ -43,6 +43,7 @@ const userLogout = async () => {
       .catch(error => errorCatch(error));
 };
 
+// Create new user
 const userSignUp = async (user: UserSignUpProps) => {
     sessionStorage.clear();
     return axios.post(`${URL}sign_up`, { user })
@@ -69,6 +70,7 @@ const userSignedIn = async () => {
   return { user: { logged_in: false }, success: true };
 };
 
+// Delete user
 const userDelete = async (userID: number) => {
   let login;
   if (sessionStorage.getItem('user')) login = JSON.parse(sessionStorage.getItem('user')!);
@@ -171,6 +173,7 @@ const fetchCategoryPosts = async (category: string) => axios.get(`${URL}category
     };
   })
   .catch(error => errorCatch(error));
+
 // Create New Post
 const postNew = async (post: PostNewProps) => {
     let login;
@@ -184,7 +187,7 @@ const postNew = async (post: PostNewProps) => {
         .catch(error => errorCatch(error));
 };
 
-  // Edit a post
+// Edit a post
 const postEdit = async ({postID, post}: PostEditProps) => {
     let login;
     if (sessionStorage.getItem('user')) login = JSON.parse(sessionStorage.getItem('user')!);
@@ -280,6 +283,7 @@ const commentRemove = async (comment: CommentProps) => {
         .catch(error => errorCatch(error));
 };
 
+// Change password for user
 const changePassword = async (user: changePasswordProps) => {
   let login;
   if (sessionStorage.getItem('user')) login = JSON.parse(sessionStorage.getItem('user')!);
@@ -291,6 +295,7 @@ const changePassword = async (user: changePasswordProps) => {
     })
     .catch(error => errorCatch(error))
 ;}
+
 export { userSignIn, userLogout, userSignUp, userSignedIn, userDelete, fetchUser,
          categoryNew, categoryEdit, categoryRemove, fetchAllCategories, fetchAllCategoryPosts, fetchCategoryPosts,
          postNew, postEdit, postRemove, postHandlePin, fetchPost, 
