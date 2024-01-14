@@ -49,10 +49,6 @@ const Home: FC<HomeProps> = ({ user, handleLogout, handleModal }) => {
         });
     }, [handleModal]);
 
-/////////////////////////////////////////////////////////////////
-    sessionStorage.setItem('cat', JSON.stringify({...categoryTopics}));
-    /////////////////////////////////////////////////////////////////
-
     return !user.logged_in
     ? <NoPage statusCode={401} />
     : (<>

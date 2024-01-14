@@ -37,7 +37,6 @@ const EditPost: FC<EditPostProps>= ({ user, post, handleModal }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         },[post.id, handleSetFullPost, handleModal, setOpen]
     );
-    sessionStorage.setItem('fullPost', JSON.stringify(fullPost));
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         const data = new FormData(event.currentTarget);
         const editedPost = {

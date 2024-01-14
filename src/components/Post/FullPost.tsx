@@ -12,7 +12,6 @@ const FullPost: FC<FullPostProps> = ({user, post, expandPostOpen, handleClosePos
     const date = Moment(latest_date).format('MMMM DD YYYY,  LT');
     const [fullPost, setFullPost] = useState<PostProps|null>(null);
     const [comments, setComments] = useState<CommentProps[]>([]);
-    const username = 'username' in user ? user.username : ""
 
     const handleSetComments = useCallback((comments:CommentProps[]) => {
         setComments(comments);

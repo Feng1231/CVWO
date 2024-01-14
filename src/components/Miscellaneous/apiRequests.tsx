@@ -86,8 +86,9 @@ const userDelete = async (userID: number) => {
 // check cookie matches any user's token
 const checkCookies = async (token:string) => axios.get(`${URL}retrieve`, { headers: { Authorization: token }})
   .then (response => {
+    sessionStorage.clear();
     const retrievedUser = response.data.user;
-    
+    sessionStorage.setItem('user', JSON.stringify({ ...retrievedUser }));
     return { user: retrievedUser, success: true };
   })
   .catch(error => errorCatch(error));

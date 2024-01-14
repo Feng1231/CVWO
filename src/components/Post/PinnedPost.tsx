@@ -15,7 +15,6 @@ import Moment from 'moment';
 
 // handles display of pinned post, pinned post will be displayed on every forum page
 const PinnedPost: FC<PinnedPostProps> = ({ user, post, handleModal }) => {
-    const username = 'username' in user ? user.username : ""
     const id = 'id' in user ? user.id : -1;
     const admin_level = "admin_level" in user? user.admin_level : 0;
     const latest_date = post.updated_at;

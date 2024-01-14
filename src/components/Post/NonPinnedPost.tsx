@@ -14,14 +14,10 @@ import EditPost from './EditPost';
 
 // handles display of non pinned post
 const NonPinnedPost: FC<NonPinnedPostProps> = ({ user, post, handleModal }) =>{
-    const username = 'username' in user ? user.username : ""
     const id = 'id' in user ? user.id : -1;
     const admin_level = "admin_level" in user? user.admin_level : 0;
     let latest_date = post.updated_at;
     const date = Moment(latest_date).format('MMMM DD YYYY,  LT');
-    /////////////////////////////////////////////////////
-    sessionStorage.setItem('post', JSON.stringify(post))
-    /////////////////////////////////////////////////////
     const [expandPostOpen, setExpandPostOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper');
     const handleExpandPost = (scrollType: DialogProps['scroll']) => () => {
