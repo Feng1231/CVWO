@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { UserSignInProps ,UserSignUpProps, UserProps, CategoryNewProps, CategoryEditProps, PostNewProps, PostEditProps, CommentNewProps, CommentEditProps, CommentProps, changePasswordProps} from '../../App.types';
 // const URL = 'http://127.0.0.1:3000/';
-const URL = 'https://discum-api-b9b69415a635.herokuapp.com/';
+const URL = 'https://discum-api-05128e6db65d.herokuapp.com/';
 const organizeErrors = (errors: string | string[]) => {
     const errorMsg = !Array.isArray(errors) ? errors.split(':') : errors[0];
     let errorList = errors;
