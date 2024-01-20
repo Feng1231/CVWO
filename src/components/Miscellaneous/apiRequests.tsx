@@ -74,7 +74,6 @@ const userSignedIn = async () => {
 const userDelete = async (userID: number) => {
   let login;
   if (sessionStorage.getItem('user')) login = JSON.parse(sessionStorage.getItem('user')!);
-  console.log(login);
   // sessionStorage.clear();
   return axios.delete(`${URL}sign_up/${userID}`, { headers: { Authorization: login.token } })
     .then(response => {

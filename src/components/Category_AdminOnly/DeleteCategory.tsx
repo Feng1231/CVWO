@@ -11,14 +11,12 @@ const DeleteCategory: FC<DeleteCategoryProps> = ({ user, categories, handleModal
 
   const handleChange = (event: SelectChangeEvent) => {
     setCategoryID(event.target.value);
-    console.log((event.target.value));
   };
 
   const [open, setOpen] = useState(false);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const confirmDelete = window.confirm(`Are you sure you want to delete Category?`)
-    console.log(typeof categoryID )
     if (confirmDelete) {
       categoryRemove(Number(categoryID!))
         .then(response => {
