@@ -33,7 +33,7 @@ const AddPost: FC<AddPostProps>= ({ user, categories, handleModal }) => {
     postNew(post)
       .then(response => {
         if (response.success) {
-          alert('post created!');
+          alert('Post created!');
           setTimeout(() => RefreshPage(), 500);
         }
         if ('errors' in response && !response.success) handleModal(response.errors)

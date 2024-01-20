@@ -21,11 +21,10 @@ const DeleteCategory: FC<DeleteCategoryProps> = ({ user, categories, handleModal
       categoryRemove(Number(categoryID!))
         .then(response => {
           if(response.success) {
-            alert('Category name upated!');
+            alert('Category name deleted!');
             setTimeout(() => {RefreshPage();}, 500);
           }
           if('errors' in response && !response.success) handleModal(response.errors)
-          RefreshPage();
         }
       )
     }

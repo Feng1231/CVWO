@@ -36,7 +36,7 @@ const PinnedPost: FC<PinnedPostProps> = ({ user, post, handleModal }) => {
             postRemove(post.id)
                 .then(response => {
                     if(response.success) {
-                        alert('post.deleted!');
+                        alert('Post deleted!');
                         setTimeout(() => RefreshPage(), 500);
                     }
                     if('errors' in response && !response.success) handleModal(response.errors);
