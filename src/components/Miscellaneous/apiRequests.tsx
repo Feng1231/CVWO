@@ -110,9 +110,9 @@ const categoryNew = async (category:CategoryNewProps) => {
     if (sessionStorage.getItem('user')) login = JSON.parse(sessionStorage.getItem('user')!);
     return axios.post(`${URL}category`, { category }, { headers: { Authorization: login.token } })
       .then(response => {
-        const { category } = response.data;
+        const { categories } = response.data;
   
-        return { category, success: true };
+        return { categories, success: true };
       })
       .catch(error => errorCatch(error));
   };
