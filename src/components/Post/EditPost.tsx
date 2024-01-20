@@ -25,7 +25,6 @@ const EditPost: FC<EditPostProps>= ({ user, post, handleModal }) => {
             .then(response => {
                 if ('post' in response && response.success) {
                     setFullPost(response.post);
-                    console.log(fullPost)
                     if (fullPost !== null) {
                         setCount1(fullPost.title.length);
                         setCount2(fullPost.body.length);
