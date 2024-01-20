@@ -29,7 +29,7 @@ const MyPosts: FC<MyPostsProps> = ({ user, handleModal, handleLogout, }) => {
     const populateAllCategories = () => categoryTopics.map(categoryData => (
         <div key={categoryData.id}>
         <Divider></Divider>
-        {categoryData.posts.filter(post => (post.title.toLowerCase().includes(searchPost) || searchPost==='') && !post.is_pinned && post.user_id === userID).map(post => (
+        {categoryData.posts.filter(post => ((post.title.toLowerCase()).includes(searchPost) || searchPost==='') && !post.is_pinned && post.user_id === userID).map(post => (
                 <NonPinnedPost user={user} post={post} handleModal={handleModal} />
             ))}
         </div>

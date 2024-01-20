@@ -26,9 +26,9 @@ const Home: FC<HomeProps> = ({ user, handleLogout, handleModal }) => {
 
     const populateAllCategories = () => categoryTopics.map(categoryData => (
         <div key={categoryData.id}>
-        {categoryData.posts.filter(post => (post.title.toLowerCase().includes(searchPost) || searchPost==='') && !post.is_pinned).length > 0 &&
+        {categoryData.posts.filter(post => ((post.title.toLowerCase()).includes(searchPost) || searchPost==='') && !post.is_pinned).length > 0 &&
         <Divider />}
-        {categoryData.posts.filter(post => (post.title.toLowerCase().includes(searchPost) || searchPost==='') && !post.is_pinned).map(post => (
+        {categoryData.posts.filter(post => ((post.title.toLowerCase()).includes(searchPost) || searchPost==='') && !post.is_pinned).map(post => (
                 
                 <NonPinnedPost user={user} post={post} handleModal={handleModal}/>
             ))}
