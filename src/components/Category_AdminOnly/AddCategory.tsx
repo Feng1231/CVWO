@@ -20,7 +20,7 @@ const AddCategory: FC<AddCategoryProps> = ({ user, handleModal }) => {
     categoryNew(category)
       .then(response => {
         if (response.success) {
-          alert('Category Crated!');
+          alert('Category Created!');
           setTimeout(() => {RefreshPage();}, 500);
         }
         if ('errors' in response && !response.success) handleModal(response.errors)
