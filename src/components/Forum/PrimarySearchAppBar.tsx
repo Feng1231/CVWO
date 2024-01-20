@@ -140,7 +140,8 @@ const PrimarySearchAppBar: FC<PrimarySearchAppBarProps> = ({ user, categories, h
             <StyledInputBase
               placeholder="Search Post Title…"
               inputProps={{ 'aria-label': 'search' }}
-              onChange={(e) => handleSearchPost(e.target.value.toLowerCase())}
+              onChange={(e) => {handleSearchPost(e.target.value.toLowerCase());
+                                console.log(e.target.value.toLowerCase())}}
             />
           </Search>
           <AddPost user={user} categories={categories} handleModal={handleModal} />
