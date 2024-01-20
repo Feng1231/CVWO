@@ -18,7 +18,7 @@ const CategoryPage: FC<CategoryPageProps> = ( { user, handleLogout, handleModal 
     const [loading, setLoading] = useState(true);
 
     const handleSearchPost = useCallback((search:string) => {
-        setSearchPost(search);
+        setSearchPost(search.toLowerCase());
     },[setSearchPost]);
 
     const populatePinnedPosts = () => pinnedPosts.map(post => (
@@ -28,7 +28,7 @@ const CategoryPage: FC<CategoryPageProps> = ( { user, handleLogout, handleModal 
     const populateCategoryPosts = () => categoryTopics.filter(categoryData => categoryData.name === category).map(categoryData => (
         <div key={categoryData.id}>
         <Divider />
-        {categoryData.posts.filter(post => (post.title.includes(searchPost) || searchPost==='') && !post.is_pinned).map(post => (
+        {categoryData.posts.filter(post => (post.title.toLowerCase().includes(searchPost) || searchPost==='') && !post.is_pinned).map(post => (
         
                 <NonPinnedPost user={user} post={post} handleModal={handleModal}/>
             ))}
