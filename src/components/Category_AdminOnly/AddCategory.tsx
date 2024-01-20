@@ -15,6 +15,7 @@ import { RefreshPage } from '../../App';
 // handle Adding new category by admin
 const AddCategory: FC<AddCategoryProps> = ({ user, handleModal }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const data = new FormData(event.currentTarget);
     const category = { name: (data.get('name') as string).trim() };
     categoryNew(category)
